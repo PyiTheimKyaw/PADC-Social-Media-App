@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "679315179165",
+    "project_id": "padc-social-app",
+    "storage_bucket": "padc-social-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:679315179165:android:2b109ed7a0e360f98d7674",
+        "android_client_info": {
+          "package_name": "com.padc.social_media_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "679315179165-idadahbgir6aaut3jdnp4jo793b4bhss.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyComiUrX-V9PZJY1lpgqP_B_18QLcz1nvE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "679315179165-idadahbgir6aaut3jdnp4jo793b4bhss.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
