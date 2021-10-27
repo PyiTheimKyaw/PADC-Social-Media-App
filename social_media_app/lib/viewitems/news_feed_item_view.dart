@@ -127,7 +127,7 @@ class ProfileImageView extends StatelessWidget {
       backgroundImage: NetworkImage(
         "https://www.whatsappprofiledpimages.com/wp-content/uploads/2021/08/Profile-Photo-Wallpaper.jpg",
       ),
-      radius: MARGIN_XLARGE,
+      radius: MARGIN_LARGE,
     );
   }
 }
@@ -147,7 +147,7 @@ class NameLocationAndTimeAgoView extends StatelessWidget {
             Text(
               "Emma Brody",
               style: TextStyle(
-                fontSize: TEXT_REGULAR,
+                fontSize: TEXT_REGULAR_2X,
                 color: Colors.black,
                 fontWeight: FontWeight.bold,
               ),

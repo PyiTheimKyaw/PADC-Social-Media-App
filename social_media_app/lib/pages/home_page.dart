@@ -58,7 +58,7 @@ class HomePage extends StatelessWidget {
               height: MARGIN_XLARGE,
             );
           },
-          itemCount: 3,
+          itemCount: 10,
         ),
       ),
     );
