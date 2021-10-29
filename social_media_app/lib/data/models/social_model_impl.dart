@@ -20,6 +20,11 @@ class SocialModelImpl extends SocialModel {
   }
 
   @override
+  Future<void> deletePost(int postId) {
+    return mDataAgent.deletePost(postId);
+  }
+
+  @override
   Future<void> addNewPost(String description) {
     var currentMilliseconds = DateTime.now().millisecondsSinceEpoch;
     var newPost = NewsFeedVO(

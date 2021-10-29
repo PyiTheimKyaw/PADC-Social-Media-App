@@ -5,8 +5,8 @@ import 'package:social_media_app/pages/add_new_post_page.dart';
 import 'package:social_media_app/resources/dimens.dart';
 import 'package:social_media_app/viewitems/news_feed_item_view.dart';
 
-class HomePage extends StatelessWidget {
-  const HomePage({Key? key}) : super(key: key);
+class NewsFeedPage extends StatelessWidget {
+  const NewsFeedPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -68,6 +68,9 @@ class HomePage extends StatelessWidget {
               itemBuilder: (context, index) {
                 return NewsFeedItemView(
                   mNewsFeed: bloc.newsFeed?[index],
+                  onTapDelete: (newsFeedId) {
+                    bloc.onTapDeletePost(newsFeedId);
+                  },
                 );
               },
               separatorBuilder: (context, index) {
