@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:social_media_app/data/vos/news_feed_vo.dart';
 import 'package:social_media_app/resources/dimens.dart';
 import 'package:social_media_app/resources/images.dart';
+import 'package:social_media_app/widgets/profile_image_view.dart';
 
 class NewsFeedItemView extends StatelessWidget {
   final NewsFeedVO? mNewsFeed;
@@ -11,6 +12,7 @@ class NewsFeedItemView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Row(
           children: [
@@ -30,8 +32,11 @@ class NewsFeedItemView extends StatelessWidget {
         const SizedBox(
           height: MARGIN_MEDIUM_2,
         ),
-        PostImageView(
-          postImage: mNewsFeed?.postImage ?? "",
+        Visibility(
+          visible: ((mNewsFeed?.postImage ?? "").isNotEmpty),
+          child: PostImageView(
+            postImage: mNewsFeed?.postImage ?? "",
+          ),
         ),
         const SizedBox(
           height: MARGIN_MEDIUM_2,
@@ -129,25 +134,6 @@ class MoreButtonView extends StatelessWidget {
         Icons.more_vert,
         color: Colors.grey,
       ),
-    );
-  }
-}
-
-class ProfileImageView extends StatelessWidget {
-  final String profileImage;
-
-  const ProfileImageView({
-    Key? key,
-    required this.profileImage,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return CircleAvatar(
-      backgroundImage: NetworkImage(
-        profileImage,
-      ),
-      radius: MARGIN_LARGE,
     );
   }
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:social_media_app/blocs/news_feed_bloc.dart';
+import 'package:social_media_app/pages/add_new_post_page.dart';
 import 'package:social_media_app/resources/dimens.dart';
 import 'package:social_media_app/viewitems/news_feed_item_view.dart';
 
@@ -45,6 +46,17 @@ class HomePage extends StatelessWidget {
             )
           ],
         ),
+        floatingActionButton: FloatingActionButton(
+          backgroundColor: Colors.black,
+          onPressed: () {
+            /// Navigate to Add New Post Page
+            _navigateToAddNewPostPage(context);
+          },
+          child: const Icon(
+            Icons.add,
+            color: Colors.white,
+          ),
+        ),
         body: Container(
           color: Colors.white,
           child: Consumer<NewsFeedBloc>(
@@ -67,6 +79,14 @@ class HomePage extends StatelessWidget {
             ),
           ),
         ),
+      ),
+    );
+  }
+
+  void _navigateToAddNewPostPage(BuildContext context) {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => const AddNewPostPage(),
       ),
     );
   }
