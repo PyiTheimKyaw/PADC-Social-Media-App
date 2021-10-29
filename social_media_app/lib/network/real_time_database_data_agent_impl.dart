@@ -28,6 +28,20 @@ class RealtimeDatabaseDataAgentImpl extends SocialDataAgent {
   }
 
   @override
+  Stream<NewsFeedVO> getNewsFeedById(int newsFeedId) {
+    return databaseRef
+        .child(newsFeedPath)
+        .child(newsFeedId.toString())
+        .once()
+        .asStream()
+        .map((snapShot) {
+      return NewsFeedVO.fromJson(
+        Map<String, dynamic>.from(snapShot.value),
+      );
+    });
+  }
+
+  @override
   Future<void> addNewPost(NewsFeedVO newPost) {
     return databaseRef
         .child(newsFeedPath)

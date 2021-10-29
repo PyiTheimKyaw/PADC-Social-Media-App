@@ -7,11 +7,13 @@ import 'package:social_media_app/widgets/profile_image_view.dart';
 class NewsFeedItemView extends StatelessWidget {
   final NewsFeedVO? mNewsFeed;
   final Function(int) onTapDelete;
+  final Function(int) onTapEdit;
 
   const NewsFeedItemView({
     Key? key,
     required this.mNewsFeed,
     required this.onTapDelete,
+    required this.onTapEdit,
   }) : super(key: key);
 
   @override
@@ -34,6 +36,9 @@ class NewsFeedItemView extends StatelessWidget {
             MoreButtonView(
               onTapDelete: () {
                 onTapDelete(mNewsFeed?.id ?? 0);
+              },
+              onTapEdit: () {
+                onTapEdit(mNewsFeed?.id ?? 0);
               },
             ),
           ],
@@ -132,10 +137,12 @@ class PostImageView extends StatelessWidget {
 
 class MoreButtonView extends StatelessWidget {
   final Function onTapDelete;
+  final Function onTapEdit;
 
   const MoreButtonView({
     Key? key,
     required this.onTapDelete,
+    required this.onTapEdit,
   }) : super(key: key);
 
   @override
@@ -146,8 +153,11 @@ class MoreButtonView extends StatelessWidget {
         color: Colors.grey,
       ),
       itemBuilder: (context) => [
-        const PopupMenuItem(
-          child: Text("Edit"),
+        PopupMenuItem(
+          onTap: () {
+            onTapEdit();
+          },
+          child: const Text("Edit"),
           value: 1,
         ),
         PopupMenuItem(

@@ -37,4 +37,14 @@ class SocialModelImpl extends SocialModel {
     );
     return mDataAgent.addNewPost(newPost);
   }
+
+  @override
+  Stream<NewsFeedVO> getNewsFeedById(int newsFeedId) {
+    return mDataAgent.getNewsFeedById(newsFeedId);
+  }
+
+  @override
+  Future<void> editPost(NewsFeedVO newsFeed) {
+    return mDataAgent.addNewPost(newsFeed);
+  }
 }
