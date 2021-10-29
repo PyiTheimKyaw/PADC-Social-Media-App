@@ -38,7 +38,13 @@ class CloudFireStoreDataAgentImpl extends SocialDataAgent {
 
   @override
   Stream<NewsFeedVO> getNewsFeedById(int newsFeedId) {
-    // TODO: implement getNewsFeedById
-    throw UnimplementedError();
+    return _fireStore
+        .collection(newsFeedCollection)
+        .doc(newsFeedId.toString())
+        .get()
+        .asStream()
+        .where((documentSnapShot) => documentSnapShot.data() != null)
+        .map((documentSnapShot) =>
+            NewsFeedVO.fromJson(documentSnapShot.data()!));
   }
 }
