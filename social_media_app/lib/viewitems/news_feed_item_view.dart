@@ -148,6 +148,7 @@ class MoreButtonView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return PopupMenuButton(
+      padding: EdgeInsets.zero,
       icon: const Icon(
         Icons.more_vert,
         color: Colors.grey,

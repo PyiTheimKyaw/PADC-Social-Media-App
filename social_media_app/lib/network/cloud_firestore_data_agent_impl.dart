@@ -18,8 +18,10 @@ class CloudFireStoreDataAgentImpl extends SocialDataAgent {
 
   @override
   Future<void> deletePost(int postId) {
-    // TODO: implement deletePost
-    throw UnimplementedError();
+    return _fireStore
+        .collection(newsFeedCollection)
+        .doc(postId.toString())
+        .delete();
   }
 
   @override
