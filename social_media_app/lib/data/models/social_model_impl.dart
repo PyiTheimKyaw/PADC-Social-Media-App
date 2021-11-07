@@ -1,6 +1,8 @@
+import 'dart:io';
+
 import 'package:social_media_app/data/models/social_model.dart';
 import 'package:social_media_app/data/vos/news_feed_vo.dart';
-import 'package:social_media_app/network/cloud_firestore_data_agent_impl.dart';
+import 'package:social_media_app/network/real_time_database_data_agent_impl.dart';
 import 'package:social_media_app/network/social_data_agent.dart';
 
 class SocialModelImpl extends SocialModel {
@@ -12,9 +14,9 @@ class SocialModelImpl extends SocialModel {
 
   SocialModelImpl._internal();
 
-  //SocialDataAgent mDataAgent = RealtimeDatabaseDataAgentImpl();
+  SocialDataAgent mDataAgent = RealtimeDatabaseDataAgentImpl();
 
-  SocialDataAgent mDataAgent = CloudFireStoreDataAgentImpl();
+  //SocialDataAgent mDataAgent = CloudFireStoreDataAgentImpl();
 
   @override
   Stream<List<NewsFeedVO>> getNewsFeed() {
@@ -27,17 +29,29 @@ class SocialModelImpl extends SocialModel {
   }
 
   @override
-  Future<void> addNewPost(String description) {
+  Future<void> addNewPost(String description, File? imageFile) {
+    if (imageFile != null) {
+      return mDataAgent
+          .uploadFileToFirebase(imageFile)
+          .then((downloadUrl) => craftNewsFeedVO(description, downloadUrl))
+          .then((newPost) => mDataAgent.addNewPost(newPost));
+    } else {
+      return craftNewsFeedVO(description, "")
+          .then((newPost) => mDataAgent.addNewPost(newPost));
+    }
+  }
+
+  Future<NewsFeedVO> craftNewsFeedVO(String description, String imageUrl) {
     var currentMilliseconds = DateTime.now().millisecondsSinceEpoch;
     var newPost = NewsFeedVO(
       id: currentMilliseconds,
       userName: "Zaw Htet Naing",
-      postImage: "",
+      postImage: imageUrl,
       description: description,
       profilePicture:
           "https://images.pexels.com/photos/771742/pexels-photo-771742.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
     );
-    return mDataAgent.addNewPost(newPost);
+    return Future.value(newPost);
   }
 
   @override
@@ -46,7 +60,7 @@ class SocialModelImpl extends SocialModel {
   }
 
   @override
-  Future<void> editPost(NewsFeedVO newsFeed) {
+  Future<void> editPost(NewsFeedVO newsFeed, File? imageFile) {
     return mDataAgent.addNewPost(newsFeed);
   }
 }
