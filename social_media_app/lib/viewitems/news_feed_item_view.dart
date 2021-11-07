@@ -129,7 +129,7 @@ class PostImageView extends StatelessWidget {
         image: NetworkImage(
           postImage,
         ),
-        fit: BoxFit.fill,
+        fit: BoxFit.cover,
       ),
     );
   }
