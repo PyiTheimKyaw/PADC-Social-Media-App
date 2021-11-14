@@ -61,7 +61,7 @@ class RealtimeDatabaseDataAgentImpl extends SocialDataAgent {
 
   @override
   Future<String> uploadFileToFirebase(File image) {
-    return FirebaseStorage.instance
+    return firebaseStorage
         .ref(fileUploadRef)
         .child("${DateTime.now().millisecondsSinceEpoch}")
         .putFile(image)

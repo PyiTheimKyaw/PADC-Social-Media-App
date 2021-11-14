@@ -70,11 +70,11 @@ class AddNewPostPage extends StatelessWidget {
                       SizedBox(
                         height: MARGIN_MEDIUM_2,
                       ),
-                      PostImageView(),
+                      PostDescriptionErrorView(),
                       SizedBox(
                         height: MARGIN_MEDIUM_2,
                       ),
-                      PostDescriptionErrorView(),
+                      PostImageView(),
                       SizedBox(
                         height: MARGIN_LARGE,
                       ),
@@ -117,7 +117,7 @@ class LoadingView extends StatelessWidget {
           width: MARGIN_XXLARGE,
           height: MARGIN_XXLARGE,
           child: LoadingIndicator(
-            indicatorType: Indicator.audioEqualizer,
+            indicatorType: Indicator.ballRotate,
             colors: [Colors.white],
             strokeWidth: 2,
             backgroundColor: Colors.transparent,

@@ -52,12 +52,12 @@ class AddNewPostBloc extends ChangeNotifier {
 
   void onImageChosen(File imageFile) {
     chosenImageFile = imageFile;
-    notifyListeners();
+    _notifySafely();
   }
 
   void onTapDeleteImage() {
     chosenImageFile = null;
-    notifyListeners();
+    _notifySafely();
   }
 
   void onNewPostTextChanged(String newPostDescription) {
