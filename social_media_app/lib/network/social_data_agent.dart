@@ -13,4 +13,5 @@ abstract class SocialDataAgent {
 
   /// Authentication
   Future registerNewUser(UserVO newUser);
+  Future login(String email, String password);
 }

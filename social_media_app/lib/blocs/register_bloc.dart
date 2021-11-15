@@ -17,7 +17,7 @@ class RegisterBloc extends ChangeNotifier {
     _showLoading();
     return _model
         .register(email, userName, password)
-        .then((_) => _hideLoading());
+        .whenComplete(() => _hideLoading());
   }
 
   void onEmailChanged(String email) {

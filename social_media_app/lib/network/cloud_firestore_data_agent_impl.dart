@@ -67,4 +67,10 @@ class CloudFireStoreDataAgentImpl extends SocialDataAgent {
   Future registerNewUser(UserVO newUser) {
     return Future.value();
   }
+
+  @override
+  Future login(String email, String password) {
+    // TODO: implement login
+    throw UnimplementedError();
+  }
 }
