@@ -73,4 +73,22 @@ class CloudFireStoreDataAgentImpl extends SocialDataAgent {
     // TODO: implement login
     throw UnimplementedError();
   }
+
+  @override
+  bool isLoggedIn() {
+    // TODO: implement isLoggedIn
+    throw UnimplementedError();
+  }
+
+  @override
+  UserVO getLoggedInUser() {
+    // TODO: implement getLoggedInUser
+    throw UnimplementedError();
+  }
+
+  @override
+  Future logOut() {
+    // TODO: implement logOut
+    throw UnimplementedError();
+  }
 }
