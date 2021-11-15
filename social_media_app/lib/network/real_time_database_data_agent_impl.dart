@@ -4,10 +4,14 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:social_media_app/data/vos/news_feed_vo.dart';
+import 'package:social_media_app/data/vos/user_vo.dart';
 import 'package:social_media_app/network/social_data_agent.dart';
 
 /// Database Paths
 const newsFeedPath = "newsfeed";
+const usersPath = "users";
+
+/// File Upload References
 const fileUploadRef = "uploads";
 
 class RealtimeDatabaseDataAgentImpl extends SocialDataAgent {
@@ -74,13 +78,20 @@ class RealtimeDatabaseDataAgentImpl extends SocialDataAgent {
         .then((taskSnapshot) => taskSnapshot.ref.getDownloadURL());
   }
 
-  // TODO: - Continue From Here
-  Future registerNewUser(String email, String password, String name,
-      String phoneNumber, File profilePicture) {
+  @override
+  Future registerNewUser(UserVO newUser) {
     return auth
-        .createUserWithEmailAndPassword(email: email, password: password)
-        .then((credential) => credential.user
-          ?..updateDisplayName(name)
-          ..updatePhotoURL(""));
+        .createUserWithEmailAndPassword(
+            email: newUser.email ?? "", password: newUser.password ?? "")
+        .then((credential) =>
+            credential.user?..updateDisplayName(newUser.userName))
+        .then((_) => _addNewUser(newUser));
+  }
+
+  Future<void> _addNewUser(UserVO newUser) {
+    return databaseRef
+        .child(usersPath)
+        .child(newUser.id.toString())
+        .set(newUser.toJson());
   }
 }

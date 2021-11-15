@@ -1,11 +1,24 @@
 import 'package:flutter/foundation.dart';
+import 'package:social_media_app/data/models/authentication_model.dart';
+import 'package:social_media_app/data/models/authentication_model_impl.dart';
 
 class RegisterBloc extends ChangeNotifier {
+  /// State
+  bool isLoading = false;
   String email = "";
   String password = "";
   String userName = "";
+  bool isDisposed = false;
 
-  void onTapRegister() {}
+  /// Model
+  final AuthenticationModel _model = AuthenticationModelImpl();
+
+  Future onTapRegister() {
+    _showLoading();
+    return _model
+        .register(email, userName, password)
+        .then((_) => _hideLoading());
+  }
 
   void onEmailChanged(String email) {
     this.email = email;
@@ -17,5 +30,27 @@ class RegisterBloc extends ChangeNotifier {
 
   void onUserNameChanged(String userName) {
     this.userName = userName;
+  }
+
+  void _showLoading() {
+    isLoading = true;
+    _notifySafely();
+  }
+
+  void _hideLoading() {
+    isLoading = false;
+    _notifySafely();
+  }
+
+  void _notifySafely() {
+    if (!isDisposed) {
+      notifyListeners();
+    }
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    isDisposed = true;
   }
 }
