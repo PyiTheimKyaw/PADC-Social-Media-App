@@ -7,7 +7,7 @@ part of 'user_vo.dart';
 // **************************************************************************
 
 UserVO _$UserVOFromJson(Map<String, dynamic> json) => UserVO(
-      id: json['id'] as int?,
+      id: json['id'] as String?,
       userName: json['user_name'] as String?,
       email: json['email'] as String?,
       password: json['password'] as String?,

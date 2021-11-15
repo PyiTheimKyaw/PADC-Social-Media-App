@@ -29,9 +29,8 @@ class AuthenticationModelImpl extends AuthenticationModel {
   }
 
   Future<UserVO> craftUserVO(String email, String password, String userName) {
-    var currentMilliseconds = DateTime.now().millisecondsSinceEpoch;
     var newUser = UserVO(
-      id: currentMilliseconds,
+      id: "",
       userName: userName,
       email: email,
       password: password,

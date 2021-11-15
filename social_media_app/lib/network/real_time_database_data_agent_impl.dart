@@ -85,7 +85,10 @@ class RealtimeDatabaseDataAgentImpl extends SocialDataAgent {
             email: newUser.email ?? "", password: newUser.password ?? "")
         .then((credential) =>
             credential.user?..updateDisplayName(newUser.userName))
-        .then((_) => _addNewUser(newUser));
+        .then((user) {
+      newUser.id = user?.uid ?? "";
+      _addNewUser(newUser);
+    });
   }
 
   Future<void> _addNewUser(UserVO newUser) {
