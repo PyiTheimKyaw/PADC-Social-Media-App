@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:social_media_app/data/vos/news_feed_vo.dart';
@@ -21,7 +22,12 @@ class RealtimeDatabaseDataAgentImpl extends SocialDataAgent {
 
   /// Database
   var databaseRef = FirebaseDatabase.instance.reference();
+
+  /// Storage
   var firebaseStorage = FirebaseStorage.instance;
+
+  /// Auth
+  FirebaseAuth auth = FirebaseAuth.instance;
 
   @override
   Stream<List<NewsFeedVO>> getNewsFeed() {
@@ -66,5 +72,15 @@ class RealtimeDatabaseDataAgentImpl extends SocialDataAgent {
         .child("${DateTime.now().millisecondsSinceEpoch}")
         .putFile(image)
         .then((taskSnapshot) => taskSnapshot.ref.getDownloadURL());
+  }
+
+  // TODO: - Continue From Here
+  Future registerNewUser(String email, String password, String name,
+      String phoneNumber, File profilePicture) {
+    return auth
+        .createUserWithEmailAndPassword(email: email, password: password)
+        .then((credential) => credential.user
+          ?..updateDisplayName(name)
+          ..updatePhotoURL(""));
   }
 }

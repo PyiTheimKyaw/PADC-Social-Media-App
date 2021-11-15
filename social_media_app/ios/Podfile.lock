@@ -348,40 +348,9 @@ PODS:
     - Firebase/Firestore (= 8.9.0)
     - firebase_core
     - Flutter
-  - DKImagePickerController/Core (4.3.2):
-    - DKImagePickerController/ImageDataManager
-    - DKImagePickerController/Resource
-  - DKImagePickerController/ImageDataManager (4.3.2)
-  - DKImagePickerController/PhotoGallery (4.3.2):
-    - DKImagePickerController/Core
-    - DKPhotoGallery
-  - DKImagePickerController/Resource (4.3.2)
-  - DKPhotoGallery (0.0.17):
-    - DKPhotoGallery/Core (= 0.0.17)
-    - DKPhotoGallery/Model (= 0.0.17)
-    - DKPhotoGallery/Preview (= 0.0.17)
-    - DKPhotoGallery/Resource (= 0.0.17)
-    - SDWebImage
-    - SwiftyGif
-  - DKPhotoGallery/Core (0.0.17):
-    - DKPhotoGallery/Model
-    - DKPhotoGallery/Preview
-    - SDWebImage
-    - SwiftyGif
-  - DKPhotoGallery/Model (0.0.17):
-    - SDWebImage
-    - SwiftyGif
-  - DKPhotoGallery/Preview (0.0.17):
-    - DKPhotoGallery/Model
-    - DKPhotoGallery/Resource
-    - SDWebImage
-    - SwiftyGif
-  - DKPhotoGallery/Resource (0.0.17):
-    - SDWebImage
-    - SwiftyGif
-  - file_picker (0.0.1):
-    - DKImagePickerController/PhotoGallery
-    - Flutter
+  - Firebase/Auth (8.9.0):
+    - Firebase/CoreOnly
+    - FirebaseAuth (~> 8.9.0)
   - Firebase/CoreOnly (8.9.0):
     - FirebaseCore (= 8.9.0)
   - Firebase/Database (8.9.0):
@@ -393,6 +362,10 @@ PODS:
   - Firebase/Storage (8.9.0):
     - Firebase/CoreOnly
     - FirebaseStorage (~> 8.9.0)
+  - firebase_auth (3.2.0):
+    - Firebase/Auth (= 8.9.0)
+    - firebase_core
+    - Flutter
   - firebase_core (1.10.0):
     - Firebase/CoreOnly (= 8.9.0)
     - Flutter
@@ -404,6 +377,11 @@ PODS:
     - Firebase/Storage (= 8.9.0)
     - firebase_core
     - Flutter
+  - FirebaseAuth (8.9.0):
+    - FirebaseCore (~> 8.0)
+    - GoogleUtilities/AppDelegateSwizzler (~> 7.6)
+    - GoogleUtilities/Environment (~> 7.6)
+    - GTMSessionFetcher/Core (~> 1.5)
   - FirebaseCore (8.9.0):
     - FirebaseCoreDiagnostics (~> 8.0)
     - GoogleUtilities/Environment (~> 7.6)
@@ -437,10 +415,21 @@ PODS:
     - GoogleUtilities/Environment (~> 7.2)
     - nanopb (~> 2.30908.0)
     - PromisesObjC (< 3.0, >= 1.2)
+  - GoogleUtilities/AppDelegateSwizzler (7.6.0):
+    - GoogleUtilities/Environment
+    - GoogleUtilities/Logger
+    - GoogleUtilities/Network
   - GoogleUtilities/Environment (7.6.0):
     - PromisesObjC (< 3.0, >= 1.2)
   - GoogleUtilities/Logger (7.6.0):
     - GoogleUtilities/Environment
+  - GoogleUtilities/Network (7.6.0):
+    - GoogleUtilities/Logger
+    - "GoogleUtilities/NSData+zlib"
+    - GoogleUtilities/Reachability
+  - "GoogleUtilities/NSData+zlib (7.6.0)"
+  - GoogleUtilities/Reachability (7.6.0):
+    - GoogleUtilities/Logger
   - "gRPC-C++ (1.28.2)":
     - "gRPC-C++/Implementation (= 1.28.2)"
     - "gRPC-C++/Interface (= 1.28.2)"
@@ -477,14 +466,10 @@ PODS:
   - path_provider (0.0.1):
     - Flutter
   - PromisesObjC (2.0.0)
-  - SDWebImage (5.12.1):
-    - SDWebImage/Core (= 5.12.1)
-  - SDWebImage/Core (5.12.1)
-  - SwiftyGif (5.4.0)
 
 DEPENDENCIES:
   - cloud_firestore (from `.symlinks/plugins/cloud_firestore/ios`)
-  - file_picker (from `.symlinks/plugins/file_picker/ios`)
+  - firebase_auth (from `.symlinks/plugins/firebase_auth/ios`)
   - firebase_core (from `.symlinks/plugins/firebase_core/ios`)
   - firebase_database (from `.symlinks/plugins/firebase_database/ios`)
   - firebase_storage (from `.symlinks/plugins/firebase_storage/ios`)
@@ -496,9 +481,8 @@ SPEC REPOS:
   trunk:
     - abseil
     - BoringSSL-GRPC
-    - DKImagePickerController
-    - DKPhotoGallery
     - Firebase
+    - FirebaseAuth
     - FirebaseCore
     - FirebaseCoreDiagnostics
     - FirebaseDatabase
@@ -512,14 +496,12 @@ SPEC REPOS:
     - leveldb-library
     - nanopb
     - PromisesObjC
-    - SDWebImage
-    - SwiftyGif
 
 EXTERNAL SOURCES:
   cloud_firestore:
     :path: ".symlinks/plugins/cloud_firestore/ios"
-  file_picker:
-    :path: ".symlinks/plugins/file_picker/ios"
+  firebase_auth:
+    :path: ".symlinks/plugins/firebase_auth/ios"
   firebase_core:
     :path: ".symlinks/plugins/firebase_core/ios"
   firebase_database:
@@ -537,13 +519,12 @@ SPEC CHECKSUMS:
   abseil: 6c8eb7892aefa08d929b39f9bb108e5367e3228f
   BoringSSL-GRPC: 8edf627ee524575e2f8d19d56f068b448eea3879
   cloud_firestore: 0c744725c0d1544d77db2c8eb35ef919cb19a176
-  DKImagePickerController: b5eb7f7a388e4643264105d648d01f727110fc3d
-  DKPhotoGallery: fdfad5125a9fdda9cc57df834d49df790dbb4179
-  file_picker: 3e6c3790de664ccf9b882732d9db5eaf6b8d4eb1
   Firebase: 13d8d96499e2635428d5bf0ec675df21f95d9a95
+  firebase_auth: 0d56cc4d105ff70d1547a7fcb10ee574ad05adf5
   firebase_core: f770e033e790657b3505f04be4cb24c482912f11
   firebase_database: f1184809b51adca4b266ea75e3e6aeb6254e473e
   firebase_storage: a3bbe618ef41930ae31da8f4691d37e4ed84f14d
+  FirebaseAuth: 2b78b2a32c07b3ecfa4970bdf1d3632b8304099b
   FirebaseCore: 599ee609343eaf4941bd188f85e3aa077ffe325b
   FirebaseCoreDiagnostics: 5daa63f1c1409d981a2d5007daa100b36eac6a34
   FirebaseDatabase: 2236b804cf0cac165b4620669bedf7ee643a2bcc
@@ -560,8 +541,6 @@ SPEC CHECKSUMS:
   nanopb: a0ba3315591a9ae0a16a309ee504766e90db0c96
   path_provider: abfe2b5c733d04e238b0d8691db0cfd63a27a93c
   PromisesObjC: 68159ce6952d93e17b2dfe273b8c40907db5ba58
-  SDWebImage: 4dc3e42d9ec0c1028b960a33ac6b637bb432207b
-  SwiftyGif: 5d4af95df24caf1c570dbbcb32a3b8a0763bc6d7
 
 PODFILE CHECKSUM: 0dbd5a87e0ace00c9610d2037ac22083a01f861d
 

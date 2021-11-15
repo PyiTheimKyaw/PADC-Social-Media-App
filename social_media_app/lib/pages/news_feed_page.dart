@@ -16,6 +16,7 @@ class NewsFeedPage extends StatelessWidget {
         appBar: AppBar(
           centerTitle: false,
           elevation: 0.0,
+          automaticallyImplyLeading: false,
           backgroundColor: Colors.white,
           title: Container(
             margin: const EdgeInsets.only(
@@ -23,6 +24,7 @@ class NewsFeedPage extends StatelessWidget {
             ),
             child: const Text(
               "Social",
+              textAlign: TextAlign.start,
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: TEXT_HEADING_1X,
