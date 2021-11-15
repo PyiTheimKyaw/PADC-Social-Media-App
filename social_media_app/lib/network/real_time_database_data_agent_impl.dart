@@ -91,16 +91,16 @@ class RealtimeDatabaseDataAgentImpl extends SocialDataAgent {
     });
   }
 
-  @override
-  Future login(String email, String password) {
-    return auth.signInWithEmailAndPassword(email: email, password: password);
-  }
-
   Future<void> _addNewUser(UserVO newUser) {
     return databaseRef
         .child(usersPath)
         .child(newUser.id.toString())
         .set(newUser.toJson());
+  }
+
+  @override
+  Future login(String email, String password) {
+    return auth.signInWithEmailAndPassword(email: email, password: password);
   }
 
   @override
