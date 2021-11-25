@@ -1,3 +1,4 @@
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:social_media_app/blocs/news_feed_bloc.dart';
@@ -73,6 +74,8 @@ class NewsFeedPage extends StatelessWidget {
           onPressed: () {
             /// Navigate to Add New Post Page
             _navigateToAddNewPostPage(context);
+            // TODO: - Delete this after testing crashlytics
+            FirebaseCrashlytics.instance.crash();
           },
           child: const Icon(
             Icons.add,
