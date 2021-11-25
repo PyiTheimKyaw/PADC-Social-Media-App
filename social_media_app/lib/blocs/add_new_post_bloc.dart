@@ -8,6 +8,7 @@ import 'package:social_media_app/data/models/social_model.dart';
 import 'package:social_media_app/data/models/social_model_impl.dart';
 import 'package:social_media_app/data/vos/news_feed_vo.dart';
 import 'package:social_media_app/data/vos/user_vo.dart';
+import 'package:social_media_app/performance/firebase_performance_monitor.dart';
 
 class AddNewPostBloc extends ChangeNotifier {
   /// State
@@ -39,7 +40,9 @@ class AddNewPostBloc extends ChangeNotifier {
       _prepopulateDataForAddNewPost();
     }
 
+    /// Firebase
     _sendAnalyticsData(addNewPostScreenReached, null);
+    _startPerformanceMonitor();
   }
 
   void _prepopulateDataForAddNewPost() {
@@ -88,6 +91,7 @@ class AddNewPostBloc extends ChangeNotifier {
           _notifySafely();
           _sendAnalyticsData(
               editPostAction, {postId: mNewsFeed?.id.toString() ?? ""});
+          _stopPerformanceMonitor();
         });
       } else {
         return _createNewNewsFeedPost().then((value) {
@@ -118,8 +122,18 @@ class AddNewPostBloc extends ChangeNotifier {
     return _model.addNewPost(newPostDescription, chosenImageFile);
   }
 
+  /// Analytics
   void _sendAnalyticsData(String name, Map<String, String>? parameters) async {
     await FirebaseAnalyticsTracker().logEvent(name, parameters);
+  }
+
+  /// Performance
+  void _startPerformanceMonitor() {
+    FirebasePerformanceMonitor().startTrace();
+  }
+
+  void _stopPerformanceMonitor() {
+    FirebasePerformanceMonitor().stopTrace();
   }
 
   @override
