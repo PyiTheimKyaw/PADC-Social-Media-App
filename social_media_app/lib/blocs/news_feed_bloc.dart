@@ -9,6 +9,9 @@ import 'package:social_media_app/data/vos/news_feed_vo.dart';
 class NewsFeedBloc extends ChangeNotifier {
   List<NewsFeedVO>? newsFeed;
 
+  /// Remote Configs
+
+  /// Models
   final SocialModel _mSocialModel = SocialModelImpl();
   final AuthenticationModel _mAuthenticationModel = AuthenticationModelImpl();
 
