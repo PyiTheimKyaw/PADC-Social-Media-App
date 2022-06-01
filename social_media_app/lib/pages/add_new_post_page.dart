@@ -1,12 +1,15 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:social_media_app/blocs/add_new_post_bloc.dart';
 import 'package:social_media_app/resources/dimens.dart';
 import 'package:social_media_app/viewitems/news_feed_item_view.dart';
+import 'package:image_picker/image_picker.dart';
 
 class AddNewPostPage extends StatelessWidget {
-   AddNewPostPage({Key? key, this.newsFeedId}) : super(key: key);
-   int? newsFeedId;
+  AddNewPostPage({Key? key, this.newsFeedId}) : super(key: key);
+  int? newsFeedId;
 
   @override
   Widget build(BuildContext context) {
@@ -47,12 +50,16 @@ class AddNewPostPage extends StatelessWidget {
                 SizedBox(
                   height: MARGIN_MEDIUM_3,
                 ),
-                AddNewPostTextFieldView(),
+                Expanded(child: AddNewPostTextFieldView()),
                 // MaterialButton(onPressed: () {},color: Colors.black,child: Text("Post",style: TextStyle(color: Colors.white),)),
                 SizedBox(
                   height: MARGIN_MEDIUM_3,
                 ),
                 PostDescriptionErrorView(),
+                SizedBox(
+                  height: MARGIN_MEDIUM_3,
+                ),
+                Expanded(child: PostImageView()),
                 SizedBox(
                   height: MARGIN_MEDIUM_3,
                 ),
@@ -62,6 +69,73 @@ class AddNewPostPage extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+}
+
+class PostImageView extends StatelessWidget {
+  const PostImageView({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Consumer<AddNewPostBloc>(
+      builder: (BuildContext context, bloc, Widget? child) {
+        return Container(
+          padding: EdgeInsets.all(MARGIN_MEDIUM),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(MARGIN_MEDIUM),
+            border: Border.all(width: 1, color: Colors.black),
+          ),
+          child: Stack(
+            children: [
+              Container(
+                child: Center(
+                  child: (bloc.chosenImageFile == null)
+                      ? GestureDetector(
+                          onTap: () async {
+                            final ImagePicker _picker = ImagePicker();
+                            final XFile? image = await _picker.pickImage(
+                                source: ImageSource.gallery);
+                            if (image != null) {
+                              bloc.onImageChosen(File(image.path));
+                            }
+                          },
+                          child: SizedBox(
+                            width: double.infinity,
+                            height: 200,
+                            child: Image.network(
+                              "https://pooldues.com/wp-content/uploads/2018/04/image-upload-placeholder.jpg",
+                            ),
+                          ),
+                        )
+                      : SizedBox(
+                          height: 300,
+                          child: Image.file(
+                            bloc.chosenImageFile ?? File(""),
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                ),
+              ),
+              Align(
+                alignment: Alignment.topRight,
+                child: Visibility(
+                  visible: bloc.chosenImageFile != null,
+                  child: GestureDetector(
+                    onTap: () {
+                      bloc.onTapDeleteImage();
+                    },
+                    child: const Icon(
+                      Icons.delete_rounded,
+                      color: Colors.red,
+                    ),
+                  ),
+                ),
+              )
+            ],
+          ),
+        );
+      },
     );
   }
 }

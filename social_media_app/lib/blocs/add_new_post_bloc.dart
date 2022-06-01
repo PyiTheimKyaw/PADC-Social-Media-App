@@ -1,18 +1,25 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:social_media_app/data/model/social_model.dart';
 import 'package:social_media_app/data/model/social_model_impl.dart';
 import 'package:social_media_app/data/vos/news_feed_vo.dart';
 
 class AddNewPostBloc extends ChangeNotifier {
-  String newPostDescription = "";
+  ///State
   bool isAddNewPostError = false;
   bool isDisposed = false;
+
+  ///Imge
+  File? chosenImageFile;
+
+
+  ///For Edit mode
+  NewsFeedVO? mNewsFeed;
   bool isInEditMode = false;
   String? userName;
   String? profilePicture;
-
-  ///States
-  NewsFeedVO? mNewsFeed;
+  String newPostDescription = "";
 
   ///Model
   final SocialModel _model = SocialModelImpl();
@@ -25,7 +32,14 @@ class AddNewPostBloc extends ChangeNotifier {
       _prePopulateDataForAddPostMode();
     }
   }
-
+  void onImageChosen(File imageFile){
+    chosenImageFile=imageFile;
+    _notifySafely();
+  }
+  void onTapDeleteImage(){
+    chosenImageFile=null;
+    _notifySafely();
+  }
   void onNewPostTextChanged(String newPostDescription) {
     this.newPostDescription = newPostDescription;
     notifyListeners();
