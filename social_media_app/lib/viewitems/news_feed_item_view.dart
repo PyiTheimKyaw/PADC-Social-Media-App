@@ -12,7 +12,7 @@ class NewsFeedItemView extends StatelessWidget {
       children: [
         Row(
           children:  [
-            ProfileImageView(newsFeedItem: newsFeedItem,),
+            ProfileImageView(profileImage: newsFeedItem?.profilePicture,),
             SizedBox(
               width: MARGIN_MEDIUM_2,
             ),
@@ -125,13 +125,13 @@ class MoreButtonView extends StatelessWidget {
 }
 
 class ProfileImageView extends StatelessWidget {
-  ProfileImageView({required this.newsFeedItem});
-  final NewsFeedVO? newsFeedItem;
+  ProfileImageView({required this.profileImage});
+  final String? profileImage;
   @override
   Widget build(BuildContext context) {
     return  CircleAvatar(
       backgroundImage: NetworkImage(
-        newsFeedItem?.profilePicture ?? "",
+        profileImage?? "",
       ),
       radius: MARGIN_LARGE,
     );

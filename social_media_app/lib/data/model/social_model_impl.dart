@@ -3,19 +3,31 @@ import 'package:social_media_app/data/vos/news_feed_vo.dart';
 import 'package:social_media_app/network/real_time_database_data_agent_impl.dart';
 import 'package:social_media_app/network/social_data_agent.dart';
 
-class SocialModelImpl extends SocialModel{
-  static final SocialModelImpl _singleton=SocialModelImpl._internaL();
+class SocialModelImpl extends SocialModel {
+  static final SocialModelImpl _singleton = SocialModelImpl._internaL();
 
-  factory SocialModelImpl(){
+  factory SocialModelImpl() {
     return _singleton;
   }
 
   SocialModelImpl._internaL();
 
-  SocialDataAgent mDataAgent=RealTimeDatabaseDataAgentImpl();
+  SocialDataAgent mDataAgent = RealTimeDatabaseDataAgentImpl();
+
   @override
   Stream<List<NewsFeedVO>> getNewsFeed() {
     return mDataAgent.getNewsFeed();
   }
 
+  @override
+  Future<void> addNewPost(String description) {
+    var currentMiliseconds = DateTime.now().millisecondsSinceEpoch;
+    var newPost = NewsFeedVO(
+        currentMiliseconds,
+        description,
+        null,
+        "https://scontent-sin6-4.xx.fbcdn.net/v/t1.6435-9/91521846_730904297681781_7767512976893935616_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=OwDQxt9BVzsAX_3l0Cx&_nc_ht=scontent-sin6-4.xx&oh=00_AT8wDx_uQmzwhDyRStvBFq0TygYI-oFmqDOyMb9e_MPlCg&oe=62BC328A",
+        "Pyi Theim Kyaw");
+    return mDataAgent.addNewPost(newPost);
+  }
 }

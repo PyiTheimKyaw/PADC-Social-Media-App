@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:social_media_app/blocs/news_feed_bloc.dart';
 import 'package:social_media_app/data/model/social_model.dart';
 import 'package:social_media_app/data/model/social_model_impl.dart';
+import 'package:social_media_app/pages/add_new_post_page.dart';
 import 'package:social_media_app/resources/dimens.dart';
 import 'package:social_media_app/viewitems/news_feed_item_view.dart';
 
@@ -14,7 +15,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  SocialModel mSocialModel=SocialModelImpl();
+  SocialModel mSocialModel = SocialModelImpl();
+
   @override
   void initState() {
     // TODO: implement initState
@@ -24,11 +26,23 @@ class _HomePageState extends State<HomePage> {
 
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
       create: (BuildContext context) => NewsFeedBloc(),
       child: Scaffold(
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => AddNewPostPage()));
+          },
+          backgroundColor: Colors.black,
+          child: Icon(
+            Icons.add,
+            color: Colors.white,
+          ),
+        ),
         appBar: AppBar(
           centerTitle: false,
           elevation: 0.0,
@@ -74,7 +88,7 @@ class _HomePageState extends State<HomePage> {
                   horizontal: MARGIN_LARGE,
                 ),
                 itemBuilder: (context, index) {
-                  return  NewsFeedItemView(
+                  return NewsFeedItemView(
                     newsFeedItem: bloc.newsFeed?[index],
                   );
                 },
@@ -86,7 +100,6 @@ class _HomePageState extends State<HomePage> {
                 itemCount: bloc.newsFeed?.length ?? 0,
               );
             },
-
           ),
         ),
       ),
