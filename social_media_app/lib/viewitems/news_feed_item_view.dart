@@ -16,7 +16,7 @@ class NewsFeedItemView extends StatelessWidget {
             SizedBox(
               width: MARGIN_MEDIUM_2,
             ),
-            NameLocationAndTimeAgoView(),
+            NameLocationAndTimeAgoView(name: newsFeedItem?.userName,),
             Spacer(),
             MoreButtonView(),
           ],
@@ -141,20 +141,21 @@ class ProfileImageView extends StatelessWidget {
 }
 
 class NameLocationAndTimeAgoView extends StatelessWidget {
-  const NameLocationAndTimeAgoView({
+   NameLocationAndTimeAgoView({
     Key? key,
+     required this.name,
   }) : super(key: key);
-
+  String? name;
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Row(
-          children: const [
+          children:  [
             Text(
-              "Emma Brody",
-              style: TextStyle(
+              name ?? "",
+              style:const TextStyle(
                 fontSize: TEXT_REGULAR_2X,
                 color: Colors.black,
                 fontWeight: FontWeight.bold,

@@ -23,7 +23,7 @@ class RealTimeDatabaseDataAgentImpl extends SocialDataAgent {
   Stream<List<NewsFeedVO>> getNewsFeed() {
     return databaseRef.child(newsFeedPath).onValue.map((event) {
       // List<Object> eventObj=event.snapshot.value as List<Object>;
-      return event.snapshot.value.map<NewsFeedVO>((element) {
+      return event.snapshot.value.values.map<NewsFeedVO>((element) {
         // Map<dynamic,dynamic> elementMap=element as Map<dynamic,dynamic>;
         return NewsFeedVO.fromJson(Map<String, dynamic>.from(element));
       }).toList();
