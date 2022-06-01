@@ -20,14 +20,13 @@ class RealTimeDatabaseDataAgentImpl extends SocialDataAgent {
   var databaseRef = FirebaseDatabase.instance.reference();
 
   @override
-  Stream<List<NewsFeedVO>?> getNewsFeed() {
+  Stream<List<NewsFeedVO>> getNewsFeed() {
     return databaseRef.child(newsFeedPath).onValue.map((event) {
-      List<Object> eventObj=event.snapshot.value as List<Object>;
-      return eventObj.map<NewsFeedVO>((element){
-        Map<dynamic,dynamic> elementMap=element as Map<dynamic,dynamic>;
-            return NewsFeedVO.fromJson(Map<String,dynamic>.from(elementMap));
+      // List<Object> eventObj=event.snapshot.value as List<Object>;
+      return event.snapshot.value.map<NewsFeedVO>((element) {
+        // Map<dynamic,dynamic> elementMap=element as Map<dynamic,dynamic>;
+        return NewsFeedVO.fromJson(Map<String, dynamic>.from(element));
       }).toList();
-
     });
   }
 }
