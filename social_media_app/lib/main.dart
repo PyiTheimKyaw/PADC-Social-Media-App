@@ -30,7 +30,7 @@ class MyApp extends StatelessWidget {
           // is not restarted.
           primarySwatch: Colors.blue,
           fontFamily: GoogleFonts.ubuntu().fontFamily),
-      home: const HomePage(),
+      home: const NewsFeedPage(),
     );
   }
 }

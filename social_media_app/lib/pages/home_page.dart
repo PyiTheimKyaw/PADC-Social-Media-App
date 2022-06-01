@@ -7,14 +7,14 @@ import 'package:social_media_app/pages/add_new_post_page.dart';
 import 'package:social_media_app/resources/dimens.dart';
 import 'package:social_media_app/viewitems/news_feed_item_view.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+class NewsFeedPage extends StatefulWidget {
+  const NewsFeedPage({Key? key}) : super(key: key);
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<NewsFeedPage> createState() => _NewsFeedPageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _NewsFeedPageState extends State<NewsFeedPage> {
   SocialModel mSocialModel = SocialModelImpl();
 
   @override
@@ -34,11 +34,13 @@ class _HomePageState extends State<HomePage> {
       child: Scaffold(
         floatingActionButton: FloatingActionButton(
           onPressed: () {
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => AddNewPostPage()));
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const AddNewPostPage()));
           },
           backgroundColor: Colors.black,
-          child: Icon(
+          child: const Icon(
             Icons.add,
             color: Colors.white,
           ),
@@ -90,6 +92,9 @@ class _HomePageState extends State<HomePage> {
                 itemBuilder: (context, index) {
                   return NewsFeedItemView(
                     newsFeedItem: bloc.newsFeed?[index],
+                    onTapDelete: (postId) {
+                      bloc.onTapDelete(postId);
+                    },
                   );
                 },
                 separatorBuilder: (context, index) {

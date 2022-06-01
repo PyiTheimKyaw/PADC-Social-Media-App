@@ -30,4 +30,9 @@ class SocialModelImpl extends SocialModel {
         "Pyi Theim Kyaw");
     return mDataAgent.addNewPost(newPost);
   }
+
+  @override
+  Future<void> deletePost(int postId) {
+    return mDataAgent.deletePost(postId);
+  }
 }
