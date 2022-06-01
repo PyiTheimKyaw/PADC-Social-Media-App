@@ -25,7 +25,7 @@ class SocialModelImpl extends SocialModel {
     var newPost = NewsFeedVO(
         currentMiliseconds,
         description,
-        null,
+        "",
         "https://scontent-sin6-4.xx.fbcdn.net/v/t1.6435-9/91521846_730904297681781_7767512976893935616_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=OwDQxt9BVzsAX_3l0Cx&_nc_ht=scontent-sin6-4.xx&oh=00_AT8wDx_uQmzwhDyRStvBFq0TygYI-oFmqDOyMb9e_MPlCg&oe=62BC328A",
         "Pyi Theim Kyaw");
     return mDataAgent.addNewPost(newPost);
@@ -35,4 +35,15 @@ class SocialModelImpl extends SocialModel {
   Future<void> deletePost(int postId) {
     return mDataAgent.deletePost(postId);
   }
+
+  @override
+  Stream<NewsFeedVO> getNewsFeedById(int newsFeedId) {
+    return mDataAgent.getNewsFeedById(newsFeedId);
+  }
+
+  @override
+  Future<void> editPost(NewsFeedVO newsFeed) {
+    return mDataAgent.addNewPost(newsFeed);
+  }
+
 }

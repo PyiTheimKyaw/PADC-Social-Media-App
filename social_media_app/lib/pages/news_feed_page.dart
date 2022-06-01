@@ -34,10 +34,7 @@ class _NewsFeedPageState extends State<NewsFeedPage> {
       child: Scaffold(
         floatingActionButton: FloatingActionButton(
           onPressed: () {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => const AddNewPostPage()));
+            _navigateToAddPostPage(context);
           },
           backgroundColor: Colors.black,
           child: const Icon(
@@ -95,6 +92,11 @@ class _NewsFeedPageState extends State<NewsFeedPage> {
                     onTapDelete: (postId) {
                       bloc.onTapDelete(postId);
                     },
+                    onTapEdit: (newsFeedId) {
+                      Future.delayed(const Duration(seconds: 1)).then((value) {
+                        _navigateToEditPostPage(context, newsFeedId);
+                      });
+                    },
                   );
                 },
                 separatorBuilder: (context, index) {
@@ -110,4 +112,22 @@ class _NewsFeedPageState extends State<NewsFeedPage> {
       ),
     );
   }
+}
+
+void _navigateToAddPostPage(BuildContext context) {
+  Navigator.push(
+    context,
+    MaterialPageRoute(
+      builder: (context) => AddNewPostPage(),
+    ),
+  );
+}
+
+void _navigateToEditPostPage(BuildContext context, int id) {
+  Navigator.push(
+    context,
+    MaterialPageRoute(
+      builder: (context) => AddNewPostPage(newsFeedId: id),
+    ),
+  );
 }

@@ -4,11 +4,15 @@ import 'package:social_media_app/resources/dimens.dart';
 import 'package:social_media_app/resources/images.dart';
 
 class NewsFeedItemView extends StatelessWidget {
-  const NewsFeedItemView(
-      {Key? key, required this.newsFeedItem, required this.onTapDelete})
-      : super(key: key);
+  const NewsFeedItemView({
+    Key? key,
+    required this.newsFeedItem,
+    required this.onTapDelete,
+    required this.onTapEdit,
+  }) : super(key: key);
   final NewsFeedVO? newsFeedItem;
   final Function(int) onTapDelete;
+  final Function(int) onTapEdit;
 
   @override
   Widget build(BuildContext context) {
@@ -29,6 +33,9 @@ class NewsFeedItemView extends StatelessWidget {
             MoreButtonView(
               onTapDelete: () {
                 onTapDelete(newsFeedItem?.id ?? 0);
+              },
+              onTapEdit: () {
+                onTapEdit(newsFeedItem?.id ?? 0);
               },
             ),
           ],
@@ -122,16 +129,21 @@ class MoreButtonView extends StatelessWidget {
   const MoreButtonView({
     Key? key,
     required this.onTapDelete,
+    required this.onTapEdit,
   }) : super(key: key);
   final Function onTapDelete;
+  final Function onTapEdit;
 
   @override
   Widget build(BuildContext context) {
     return PopupMenuButton(
       itemBuilder: (BuildContext context) => [
-        const PopupMenuItem(
+        PopupMenuItem(
           child: Text("Edit"),
           value: 1,
+          onTap: () {
+            onTapEdit();
+          },
         ),
         PopupMenuItem(
           child: const Text("Delete"),

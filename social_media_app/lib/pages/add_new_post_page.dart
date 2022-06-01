@@ -5,14 +5,14 @@ import 'package:social_media_app/resources/dimens.dart';
 import 'package:social_media_app/viewitems/news_feed_item_view.dart';
 
 class AddNewPostPage extends StatelessWidget {
-  const AddNewPostPage({Key? key}) : super(key: key);
+   AddNewPostPage({Key? key, this.newsFeedId}) : super(key: key);
+   int? newsFeedId;
 
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (BuildContext context) => AddNewPostBloc(),
+      create: (BuildContext context) => AddNewPostBloc(newsFeedId: newsFeedId),
       child: Scaffold(
-        resizeToAvoidBottomInset: false,
         appBar: AppBar(
           elevation: 0,
           centerTitle: false,
@@ -141,6 +141,7 @@ class AddNewPostTextFieldView extends StatelessWidget {
           height: 300,
           child: TextField(
             maxLines: 24,
+            controller: TextEditingController(text: bloc.newPostDescription),
             onChanged: (text) {
               bloc.onNewPostTextChanged(text);
             },
@@ -165,20 +166,22 @@ class ProfileImageAndNameView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        ProfileImageView(
-            profileImage:
-                "https://scontent-sin6-4.xx.fbcdn.net/v/t1.6435-9/91521846_730904297681781_7767512976893935616_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=OwDQxt9BVzsAX_3l0Cx&_nc_ht=scontent-sin6-4.xx&oh=00_AT8wDx_uQmzwhDyRStvBFq0TygYI-oFmqDOyMb9e_MPlCg&oe=62BC328A"),
-        const SizedBox(
-          width: MARGIN_MEDIUM_3,
-        ),
-        const Text(
-          "Pyi Theim Kyaw",
-          style: const TextStyle(
-              fontSize: TEXT_REGULAR_2X, fontWeight: FontWeight.bold),
-        ),
-      ],
+    return Consumer<AddNewPostBloc>(
+      builder: (BuildContext context, bloc, Widget? child) {
+        return Row(
+          children: [
+            ProfileImageView(profileImage: bloc.profilePicture),
+            const SizedBox(
+              width: MARGIN_MEDIUM_3,
+            ),
+            Text(
+              bloc.userName ?? "",
+              style: const TextStyle(
+                  fontSize: TEXT_REGULAR_2X, fontWeight: FontWeight.bold),
+            ),
+          ],
+        );
+      },
     );
   }
 }

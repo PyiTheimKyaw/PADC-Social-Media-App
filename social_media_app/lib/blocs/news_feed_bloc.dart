@@ -17,8 +17,8 @@ class NewsFeedBloc extends ChangeNotifier {
     });
   }
 
-  void onTapDelete(int postId) {
-    _mSocialModel.deletePost(postId);
+  void onTapDelete(int postId) async{
+   await _mSocialModel.deletePost(postId);
   }
 
   @override

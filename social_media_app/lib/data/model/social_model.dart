@@ -4,4 +4,7 @@ abstract class SocialModel{
   Stream<List<NewsFeedVO>> getNewsFeed();
   Future<void> addNewPost(String description);
   Future<void> deletePost(int postId);
+  Future<void> editPost(NewsFeedVO newsFeed);
+  Stream<NewsFeedVO> getNewsFeedById(int newsFeedId);
+
 }
