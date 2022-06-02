@@ -46,6 +46,12 @@ class SocialModelImpl extends SocialModel {
     return Future.value(newPost);
   }
 
+  Future<NewsFeedVO> editNewsFeedVO(NewsFeedVO newVO, String imageUrl) {
+    NewsFeedVO newPost = newVO;
+    newPost.postImage=imageUrl;
+    return Future.value(newPost);
+  }
+
   @override
   Future<void> deletePost(int postId) {
     return mDataAgent.deletePost(postId);
@@ -57,7 +63,14 @@ class SocialModelImpl extends SocialModel {
   }
 
   @override
-  Future<void> editPost(NewsFeedVO newsFeed) {
-    return mDataAgent.addNewPost(newsFeed);
+  Future<void> editPost(NewsFeedVO newsFeed, File? image) {
+    if (image != null) {
+      return mDataAgent
+          .uploadFileToFirebase(image)
+          .then((downloadUrl) => editNewsFeedVO(newsFeed, downloadUrl))
+          .then((editPost) => mDataAgent.addNewPost(editPost));
+    } else {
+      return mDataAgent.addNewPost(newsFeed);
+    }
   }
 }

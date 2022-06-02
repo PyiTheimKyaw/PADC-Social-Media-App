@@ -23,7 +23,6 @@ class AddNewPostPage extends StatelessWidget {
           return Stack(
             children: [
               Scaffold(
-                
                 appBar: AppBar(
                   elevation: 0,
                   centerTitle: false,
@@ -131,37 +130,45 @@ class PostImageView extends StatelessWidget {
             children: [
               Container(
                 child: Center(
-                  child: (bloc.chosenImageFile == null)
-                      ? GestureDetector(
-                          onTap: () async {
-                            final ImagePicker _picker = ImagePicker();
-                            final XFile? image = await _picker.pickImage(
-                                source: ImageSource.gallery);
-                            if (image != null) {
-                              bloc.onImageChosen(File(image.path));
-                            }
-                          },
-                          child: SizedBox(
-                            width: double.infinity,
-                            height: 200,
-                            child: Image.network(
-                              "https://pooldues.com/wp-content/uploads/2018/04/image-upload-placeholder.jpg",
-                            ),
-                          ),
-                        )
-                      : SizedBox(
+                  child: (bloc.isInEditMode && bloc.image !="")
+                      ? SizedBox(
                           height: 300,
-                          child: Image.file(
-                            bloc.chosenImageFile ?? File(""),
+                          child: Image.network(
+                            bloc.image ?? "",
                             fit: BoxFit.cover,
                           ),
-                        ),
+                        )
+                      : (bloc.chosenImageFile == null && bloc.image =="")
+                          ? GestureDetector(
+                              onTap: () async {
+                                final ImagePicker _picker = ImagePicker();
+                                final XFile? image = await _picker.pickImage(
+                                    source: ImageSource.gallery);
+                                if (image != null) {
+                                  bloc.onImageChosen(File(image.path));
+                                }
+                              },
+                              child: SizedBox(
+                                width: double.infinity,
+                                height: 200,
+                                child: Image.network(
+                                  "https://pooldues.com/wp-content/uploads/2018/04/image-upload-placeholder.jpg",
+                                ),
+                              ),
+                            )
+                          : SizedBox(
+                              height: 300,
+                              child: Image.file(
+                                bloc.chosenImageFile ?? File(""),
+                                fit: BoxFit.cover,
+                              ),
+                            ),
                 ),
               ),
               Align(
                 alignment: Alignment.topRight,
                 child: Visibility(
-                  visible: bloc.chosenImageFile != null,
+                  visible: (bloc.chosenImageFile != null || bloc.image !=""),
                   child: GestureDetector(
                     onTap: () {
                       bloc.onTapDeleteImage();

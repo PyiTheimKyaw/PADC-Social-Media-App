@@ -9,11 +9,10 @@ class AddNewPostBloc extends ChangeNotifier {
   ///State
   bool isAddNewPostError = false;
   bool isDisposed = false;
-  bool isLoading=false;
+  bool isLoading = false;
 
   ///Imge
   File? chosenImageFile;
-
 
   ///For Edit mode
   NewsFeedVO? mNewsFeed;
@@ -21,6 +20,7 @@ class AddNewPostBloc extends ChangeNotifier {
   String? userName;
   String? profilePicture;
   String newPostDescription = "";
+  String image="";
 
   ///Model
   final SocialModel _model = SocialModelImpl();
@@ -33,14 +33,18 @@ class AddNewPostBloc extends ChangeNotifier {
       _prePopulateDataForAddPostMode();
     }
   }
-  void onImageChosen(File imageFile){
-    chosenImageFile=imageFile;
+
+  void onImageChosen(File imageFile) {
+    chosenImageFile = imageFile;
     _notifySafely();
   }
-  void onTapDeleteImage(){
-    chosenImageFile=null;
+
+  void onTapDeleteImage() {
+    chosenImageFile = null;
+    image = "";
     _notifySafely();
   }
+
   void onNewPostTextChanged(String newPostDescription) {
     this.newPostDescription = newPostDescription;
     notifyListeners();
@@ -52,17 +56,17 @@ class AddNewPostBloc extends ChangeNotifier {
       _notifySafely();
       return Future.error("Error");
     } else {
-      isLoading=true;
+      isLoading = true;
       isAddNewPostError = false;
       _notifySafely();
       if (isInEditMode) {
         return _editNewsFeedPost().then((value) {
-          isLoading=false;
+          isLoading = false;
           _notifySafely();
         });
       } else {
         return _createNewNewsFeedPost().then((value) {
-          isLoading=false;
+          isLoading = false;
           _notifySafely();
         });
       }
@@ -71,21 +75,23 @@ class AddNewPostBloc extends ChangeNotifier {
 
   Future<dynamic> _editNewsFeedPost() {
     mNewsFeed?.description = newPostDescription;
+
     if (mNewsFeed != null) {
-      return _model.editPost(mNewsFeed!);
+      return _model.editPost(mNewsFeed!, chosenImageFile);
     } else {
       return Future.error("Error");
     }
   }
 
   Future<void> _createNewNewsFeedPost() =>
-      _model.addNewPost(newPostDescription,chosenImageFile);
+      _model.addNewPost(newPostDescription, chosenImageFile);
 
   void _prePopulateDataForEditMode(int newsFeedId) {
     _model.getNewsFeedById(newsFeedId).listen((event) {
       userName = event.userName ?? "";
       profilePicture = event.profilePicture ?? "";
       newPostDescription = event.description ?? "";
+      image = event.postImage ?? "";
       mNewsFeed = event;
       _notifySafely();
     }).onError((error) {
