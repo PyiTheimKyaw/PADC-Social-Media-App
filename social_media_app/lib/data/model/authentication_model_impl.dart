@@ -14,7 +14,22 @@ class AuthenticationModelImpl extends AuthenticationModel {
   }
 
   Future<UserVO> craftUserVO(String email, String userName, String password) {
-    var newUser = UserVO("", userName, email, password);
+    var newUser = UserVO(id:"",userName: userName,email: email,password: password);
     return Future.value(newUser);
+  }
+
+  @override
+  Future<void> login(String email, String password) {
+    return mDataAgent.login(email, password);
+  }
+
+  @override
+  UserVO getLoggedInUser() {
+    return mDataAgent.getLoggedInUser();
+  }
+
+  @override
+  bool isLoggedIn() {
+    return mDataAgent.isLoggedIn();
   }
 }

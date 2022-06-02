@@ -9,4 +9,5 @@ abstract class SocialModel{
   Future<void> editPost(NewsFeedVO newsFeed,File? image);
   Stream<NewsFeedVO> getNewsFeedById(int newsFeedId);
 
+
 }

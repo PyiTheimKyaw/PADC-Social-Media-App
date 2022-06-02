@@ -97,4 +97,22 @@ class RealTimeDatabaseDataAgentImpl extends SocialDataAgent {
         .child(user.id.toString())
         .set(user.toJson());
   }
+
+  @override
+  Future login(String email, String password) {
+    return auth.signInWithEmailAndPassword(email: email, password: password);
+  }
+
+  @override
+  UserVO getLoggedInUser() {
+    return UserVO(
+        id: auth.currentUser?.uid,
+        userName: auth.currentUser?.displayName,
+        email: auth.currentUser?.email);
+  }
+
+  @override
+  bool isLoggedIn() {
+    return auth.currentUser != null;
+  }
 }

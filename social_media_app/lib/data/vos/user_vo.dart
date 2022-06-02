@@ -12,7 +12,7 @@ class UserVO{
   @JsonKey(name: 'password')
   String? password;
 
-  UserVO(this.id, this.userName, this.email, this.password);
+  UserVO({this.id, this.userName, this.email, this.password});
 
   factory UserVO.fromJson(Map<String,dynamic> json) => _$UserVOFromJson(json);
   Map<String,dynamic> toJson() => _$UserVOToJson(this);

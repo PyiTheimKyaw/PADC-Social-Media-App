@@ -1,11 +1,13 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:social_media_app/data/model/authentication_model.dart';
+import 'package:social_media_app/data/model/authentication_model_impl.dart';
 import 'package:social_media_app/pages/login_page.dart';
 import 'package:social_media_app/pages/news_feed_page.dart';
 import 'package:social_media_app/pages/register_page.dart';
 
-void main() async{
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   runApp(const MyApp());
@@ -17,6 +19,8 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    ///Auth model
+    final AuthenticationModel mModel = AuthenticationModelImpl();
     return MaterialApp(
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
@@ -32,7 +36,7 @@ class MyApp extends StatelessWidget {
           // is not restarted.
           primarySwatch: Colors.blue,
           fontFamily: GoogleFonts.ubuntu().fontFamily),
-      home: const LoginPage(),
+      home: (mModel.isLoggedIn()) ? const NewsFeedPage() : const LoginPage(),
     );
   }
 }

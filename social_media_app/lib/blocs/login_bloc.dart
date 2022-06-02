@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:social_media_app/data/model/authentication_model.dart';
+import 'package:social_media_app/data/model/authentication_model_impl.dart';
 
 class LoginBloc extends ChangeNotifier {
   ///State
@@ -6,6 +8,14 @@ class LoginBloc extends ChangeNotifier {
   String email = "";
   String password = "";
   bool isDisposed = false;
+
+  ///Model
+  final AuthenticationModel mModel = AuthenticationModelImpl();
+
+  Future onTapLogin() {
+    _showLoading();
+    return mModel.login(email, password).whenComplete(() => _hideLoading());
+  }
 
   void onEmailChanged(String email) {
     this.email = email;
@@ -32,9 +42,10 @@ class LoginBloc extends ChangeNotifier {
     isLoading = false;
     _notifySafely();
   }
+
   @override
-  void dispose(){
+  void dispose() {
     super.dispose();
-    isDisposed=true;
+    isDisposed = true;
   }
 }
