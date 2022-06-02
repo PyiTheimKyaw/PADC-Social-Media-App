@@ -1,0 +1,10 @@
+const String LABEL_LOGIN="Login";
+const String LABEL_EMAIL="Email";
+const String HINT_TEXT_EMAIL="Please enter your email";
+const String HINT_TEXT_USERNAME="Please enter your user name";
+const String LABEL_PASSWORD="Password";
+const String HINT_TEXT_PASSWORD="Please enter your password";
+const String LABEL_OR="OR";
+const String LABEL_DONT_HAVE_ACCOUNT="Don't have an account? ";
+const String LABEL_REGISTER="Register";
+const String LABEL_USERNAME="User Name";
