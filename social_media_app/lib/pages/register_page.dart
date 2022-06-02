@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:loading_indicator/loading_indicator.dart';
 import 'package:provider/provider.dart';
 import 'package:social_media_app/blocs/register_bloc.dart';
@@ -77,6 +80,16 @@ class RegisterPage extends StatelessWidget {
                                 labelText: LABEL_PASSWORD);
                           },
                         ),
+                        // const Center(
+                        //     child: CircleAvatar(
+                        //       backgroundColor: Colors.black12,
+                        //   child: Icon(Icons.upload_file,color: Colors.blue,),
+                        //   radius: 36,
+                        // )),
+                        const SizedBox(
+                          height: MARGIN_XLARGE,
+                        ),
+                        const UploadProfilePictureView(),
                         const SizedBox(
                           height: MARGIN_LARGE,
                         ),
@@ -84,9 +97,11 @@ class RegisterPage extends StatelessWidget {
                           width: double.infinity,
                           decoration: BoxDecoration(
                               color: Colors.black,
-                              borderRadius: BorderRadius.circular(MARGIN_LARGE)),
+                              borderRadius:
+                                  BorderRadius.circular(MARGIN_LARGE)),
                           child: Consumer<RegisterBloc>(
-                            builder: (BuildContext context, bloc, Widget? child) {
+                            builder:
+                                (BuildContext context, bloc, Widget? child) {
                               return TextButton(
                                 onPressed: () {
                                   bloc
@@ -129,6 +144,62 @@ class RegisterPage extends StatelessWidget {
             ],
           );
         },
+      ),
+    );
+  }
+}
+
+class UploadProfilePictureView extends StatelessWidget {
+  const UploadProfilePictureView({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Column(
+        children: [
+          Consumer<RegisterBloc>(
+            builder: (BuildContext context, bloc, Widget? child) {
+              return Container(
+                width: 60,
+                height: 60,
+                decoration: BoxDecoration(
+                  boxShadow: const [
+                    BoxShadow(
+                      color: Colors.grey,
+                      offset: Offset(0.0, 1.0), //(x,y)
+                      blurRadius: 6.0,
+                    ),
+                  ],
+                  borderRadius: BorderRadius.circular(20),
+                  image:  (bloc.chosenImageFile!=null) ?DecorationImage(
+                    image:FileImage(bloc.chosenImageFile ?? File("")),
+                    fit: BoxFit.cover,
+                  ) : null,
+                  color: Colors.white,
+                ),
+                child:(bloc.chosenImageFile==null) ? IconButton(
+                  icon: Icon(
+                    Icons.upload_file,
+                  ),
+                  onPressed: () async{
+                    final ImagePicker _picker=ImagePicker();
+                    final XFile? image=await _picker.pickImage(source: ImageSource.gallery);
+                    if(image!=null){
+                      bloc.onImageChosen(File(image.path));
+                    }
+                  },
+                ) : null,
+              );
+            },
+
+          ),
+          SizedBox(
+            height: MARGIN_MEDIUM_2,
+          ),
+          Text("Click to upload profile picture"),
+        ],
       ),
     );
   }

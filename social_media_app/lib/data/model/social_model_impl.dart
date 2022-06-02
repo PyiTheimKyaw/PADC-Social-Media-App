@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import 'package:social_media_app/data/model/authentication_model.dart';
+import 'package:social_media_app/data/model/authentication_model_impl.dart';
 import 'package:social_media_app/data/model/social_model.dart';
 import 'package:social_media_app/data/vos/news_feed_vo.dart';
 import 'package:social_media_app/network/cloud_firestore_data_agent_impl.dart';
@@ -7,15 +9,18 @@ import 'package:social_media_app/network/real_time_database_data_agent_impl.dart
 import 'package:social_media_app/network/social_data_agent.dart';
 
 class SocialModelImpl extends SocialModel {
-  static final SocialModelImpl _singleton = SocialModelImpl._internaL();
+  static final SocialModelImpl _singleton = SocialModelImpl._internal();
 
   factory SocialModelImpl() {
     return _singleton;
   }
 
-  SocialModelImpl._internaL();
+  SocialModelImpl._internal();
 
-  SocialDataAgent mDataAgent = CloudFirestoreDataAgentImpl();
+  SocialDataAgent mDataAgent = RealTimeDatabaseDataAgentImpl();
+
+  ///Model
+   AuthenticationModel mAuthModel = AuthenticationModelImpl();
 
   @override
   Stream<List<NewsFeedVO>> getNewsFeed() {
@@ -42,13 +47,13 @@ class SocialModelImpl extends SocialModel {
         description,
         imageUrl,
         "https://sm.askmen.com/t/askmen_in/article/f/facebook-p/facebook-profile-picture-affects-chances-of-gettin_fr3n.1200.jpg",
-        "Pyi Theim Kyaw");
+        mAuthModel.getLoggedInUser().userName ?? "");
     return Future.value(newPost);
   }
 
   Future<NewsFeedVO> editNewsFeedVO(NewsFeedVO newVO, String imageUrl) {
     NewsFeedVO newPost = newVO;
-    newPost.postImage=imageUrl;
+    newPost.postImage = imageUrl;
     return Future.value(newPost);
   }
 
