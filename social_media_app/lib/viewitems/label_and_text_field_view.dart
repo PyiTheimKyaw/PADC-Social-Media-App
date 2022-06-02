@@ -7,10 +7,12 @@ class LabelAndTextFieldView extends StatelessWidget {
     required this.onChangeText,
     required this.hintText,
     required this.labelText,
+    this.isPassword = false,
   }) : super(key: key);
   final Function(String) onChangeText;
   final String hintText;
   final String labelText;
+  final bool isPassword;
 
   @override
   Widget build(BuildContext context) {
@@ -25,6 +27,7 @@ class LabelAndTextFieldView extends StatelessWidget {
           onChanged: (text) {
             onChangeText(text);
           },
+          obscureText: (isPassword) ? true : false,
           decoration: InputDecoration(
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(MARGIN_MEDIUM),

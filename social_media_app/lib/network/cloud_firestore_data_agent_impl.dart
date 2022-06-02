@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:social_media_app/data/vos/news_feed_vo.dart';
+import 'package:social_media_app/data/vos/user_vo.dart';
 import 'package:social_media_app/network/social_data_agent.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -60,6 +61,12 @@ class CloudFirestoreDataAgentImpl extends SocialDataAgent {
         .child("${DateTime.now().millisecondsSinceEpoch}")
         .putFile(image)
         .then((taskSnapshot) => taskSnapshot.ref.getDownloadURL());
+  }
+
+  @override
+  Future registerNewUser(UserVO user) {
+    // TODO: implement registerNewUser
+    throw UnimplementedError();
   }
 
 }

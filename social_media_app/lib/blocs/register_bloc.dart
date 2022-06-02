@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:social_media_app/data/model/authentication_model.dart';
+import 'package:social_media_app/data/model/authentication_model_impl.dart';
 
 class RegisterBloc extends ChangeNotifier {
   ///State
@@ -7,6 +9,16 @@ class RegisterBloc extends ChangeNotifier {
   String password = "";
   String userName = "";
   bool isDisposed = false;
+
+  ///Model
+  AuthenticationModel mModel = AuthenticationModelImpl();
+
+  Future onTapRegister() {
+    _showLoading();
+    return mModel
+        .register(email, userName, password)
+        .whenComplete(() => _hideLoading());
+  }
 
   void onEmailChanged(String email) {
     this.email = email;

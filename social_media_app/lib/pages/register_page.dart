@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:loading_indicator/loading_indicator.dart';
+import 'package:provider/provider.dart';
+import 'package:social_media_app/blocs/register_bloc.dart';
 import 'package:social_media_app/pages/login_page.dart';
 import 'package:social_media_app/resources/dimens.dart';
 import 'package:social_media_app/resources/strings.dart';
@@ -11,68 +14,142 @@ class RegisterPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SingleChildScrollView(
-        child: Container(
-          padding: const EdgeInsets.only(
-              top: LOGIN_SCREEN_TOP_PADDING,
-              left: MARGIN_XLARGE,
-              right: MARGIN_XLARGE,
-              bottom: MARGIN_LARGE),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+    return ChangeNotifierProvider(
+      create: (BuildContext context) => RegisterBloc(),
+      child: Selector<RegisterBloc, bool>(
+        selector: (context, bloc) => bloc.isLoading,
+        builder: (BuildContext context, isLoading, Widget? child) {
+          return Stack(
             children: [
-              const Text(
-                LABEL_REGISTER,
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: TEXT_BIG),
-              ),
-              const SizedBox(
-                height: MARGIN_XLARGE,
-              ),
-              LabelAndTextFieldView(
-                  onChangeText: (email) {},
-                  hintText: HINT_TEXT_EMAIL,
-                  labelText: LABEL_EMAIL),
-              const SizedBox(
-                height: MARGIN_XLARGE,
-              ),
-              LabelAndTextFieldView(
-                  onChangeText: (userName) {},
-                  hintText: HINT_TEXT_USERNAME,
-                  labelText: LABEL_USERNAME),
-              const SizedBox(
-                height: MARGIN_XLARGE,
-              ),
-              LabelAndTextFieldView(
-                  onChangeText: (email) {},
-                  hintText: HINT_TEXT_PASSWORD,
-                  labelText: LABEL_PASSWORD),
-              const SizedBox(
-                height: MARGIN_LARGE,
-              ),
-              Container(
-                width: double.infinity,
-                decoration: BoxDecoration(
-                    color: Colors.black,
-                    borderRadius: BorderRadius.circular(MARGIN_LARGE)),
-                child: TextButton(
-                  onPressed: () {},
-                  child: const PrimaryButtonView(
-                    labelText: LABEL_REGISTER,
+              Scaffold(
+                body: SingleChildScrollView(
+                  child: Container(
+                    padding: const EdgeInsets.only(
+                        top: LOGIN_SCREEN_TOP_PADDING,
+                        left: MARGIN_XLARGE,
+                        right: MARGIN_XLARGE,
+                        bottom: MARGIN_LARGE),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          LABEL_REGISTER,
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: TEXT_BIG),
+                        ),
+                        const SizedBox(
+                          height: MARGIN_XLARGE,
+                        ),
+                        Consumer<RegisterBloc>(
+                          builder: (BuildContext context, bloc, Widget? child) {
+                            return LabelAndTextFieldView(
+                                onChangeText: (email) {
+                                  bloc.onEmailChanged(email);
+                                },
+                                hintText: HINT_TEXT_EMAIL,
+                                labelText: LABEL_EMAIL);
+                          },
+                        ),
+                        const SizedBox(
+                          height: MARGIN_XLARGE,
+                        ),
+                        Consumer<RegisterBloc>(
+                          builder: (BuildContext context, bloc, Widget? child) {
+                            return LabelAndTextFieldView(
+                                onChangeText: (userName) {
+                                  bloc.onUserNameChange(userName);
+                                },
+                                hintText: HINT_TEXT_USERNAME,
+                                labelText: LABEL_USERNAME);
+                          },
+                        ),
+                        const SizedBox(
+                          height: MARGIN_XLARGE,
+                        ),
+                        Consumer<RegisterBloc>(
+                          builder: (BuildContext context, bloc, Widget? child) {
+                            return LabelAndTextFieldView(
+                                onChangeText: (password) {
+                                  bloc.onPasswordChanged(password);
+                                },
+                                isPassword: true,
+                                hintText: HINT_TEXT_PASSWORD,
+                                labelText: LABEL_PASSWORD);
+                          },
+                        ),
+                        const SizedBox(
+                          height: MARGIN_LARGE,
+                        ),
+                        Container(
+                          width: double.infinity,
+                          decoration: BoxDecoration(
+                              color: Colors.black,
+                              borderRadius: BorderRadius.circular(MARGIN_LARGE)),
+                          child: Consumer<RegisterBloc>(
+                            builder: (BuildContext context, bloc, Widget? child) {
+                              return TextButton(
+                                onPressed: () {
+                                  bloc
+                                      .onTapRegister()
+                                      .then((value) => Navigator.pop(context))
+                                      .catchError((error) {
+                                    return showSnackBarWithMessage(
+                                        context, error.toString());
+                                  });
+                                },
+                                child: const PrimaryButtonView(
+                                  labelText: LABEL_REGISTER,
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+                        const SizedBox(
+                          height: MARGIN_LARGE,
+                        ),
+                        const ORview(),
+                        const SizedBox(
+                          height: MARGIN_LARGE,
+                        ),
+                        const LoginTriggerView(),
+                      ],
+                    ),
                   ),
                 ),
               ),
-              const SizedBox(
-                height: MARGIN_LARGE,
+              Visibility(
+                visible: isLoading,
+                child: Container(
+                  color: Colors.black12,
+                  child: const Center(
+                    child: LoadingView(),
+                  ),
+                ),
               ),
-              const ORview(),
-              const SizedBox(
-                height: MARGIN_LARGE,
-              ),
-              const LoginTriggerView(),
             ],
-          ),
-        ),
+          );
+        },
+      ),
+    );
+  }
+}
+
+class LoadingView extends StatelessWidget {
+  const LoadingView({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return const SizedBox(
+      width: MARGIN_XXLARGE,
+      height: MARGIN_XXLARGE,
+      child: LoadingIndicator(
+        indicatorType: Indicator.ballBeat,
+        colors: [Colors.white],
+        strokeWidth: 2,
+        backgroundColor: Colors.transparent,
+        pathBackgroundColor: Colors.black,
       ),
     );
   }

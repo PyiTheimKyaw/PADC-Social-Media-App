@@ -77,13 +77,14 @@ class AddNewPostPage extends StatelessWidget {
                 ),
               ),
               Visibility(
-                  visible: isLoading,
-                  child: Container(
-                    color: Colors.black12,
-                    child: const Center(
-                      child: LoadingView(),
-                    ),
-                  ))
+                visible: isLoading,
+                child: Container(
+                  color: Colors.black12,
+                  child: const Center(
+                    child: LoadingView(),
+                  ),
+                ),
+              ),
             ],
           );
         },
@@ -130,7 +131,7 @@ class PostImageView extends StatelessWidget {
             children: [
               Container(
                 child: Center(
-                  child: (bloc.isInEditMode && bloc.image !="")
+                  child: (bloc.isInEditMode && bloc.image != "")
                       ? SizedBox(
                           height: 300,
                           child: Image.network(
@@ -138,7 +139,7 @@ class PostImageView extends StatelessWidget {
                             fit: BoxFit.cover,
                           ),
                         )
-                      : (bloc.chosenImageFile == null && bloc.image =="")
+                      : (bloc.chosenImageFile == null && bloc.image == "")
                           ? GestureDetector(
                               onTap: () async {
                                 final ImagePicker _picker = ImagePicker();
@@ -168,7 +169,7 @@ class PostImageView extends StatelessWidget {
               Align(
                 alignment: Alignment.topRight,
                 child: Visibility(
-                  visible: (bloc.chosenImageFile != null || bloc.image !=""),
+                  visible: (bloc.chosenImageFile != null || bloc.image != ""),
                   child: GestureDetector(
                     onTap: () {
                       bloc.onTapDeleteImage();
