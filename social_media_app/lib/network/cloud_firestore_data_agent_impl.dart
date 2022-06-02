@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:social_media_app/data/vos/news_feed_vo.dart';
 import 'package:social_media_app/data/vos/user_vo.dart';
@@ -9,9 +10,14 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 ///News Feed Collection
 const newsFeedCollection = "newsFeed";
 const fileUploadRef = "uploads";
+const userCollectionsPath = "users";
+
 class CloudFirestoreDataAgentImpl extends SocialDataAgent {
   final FirebaseFirestore _fireStore = FirebaseFirestore.instance;
   var firebaseStorage = FirebaseStorage.instance;
+
+  ///Auth
+  FirebaseAuth auth = FirebaseAuth.instance;
 
   @override
   Future<void> addNewPost(NewsFeedVO newsFeed) {
@@ -65,32 +71,34 @@ class CloudFirestoreDataAgentImpl extends SocialDataAgent {
 
   @override
   Future registerNewUser(UserVO user) {
-    // TODO: implement registerNewUser
-    throw UnimplementedError();
+    return _fireStore
+        .collection(userCollectionsPath)
+        .doc(user.id.toString())
+        .set(user.toJson());
   }
 
   @override
   Future login(String email, String password) {
-    // TODO: implement login
-    throw UnimplementedError();
+    return auth.signInWithEmailAndPassword(email: email, password: password);
   }
 
   @override
   UserVO getLoggedInUser() {
-    // TODO: implement getLoggedInUser
-    throw UnimplementedError();
+    return UserVO(
+      id: auth.currentUser?.uid,
+      userName: auth.currentUser?.displayName,
+      email: auth.currentUser?.email,
+      profilePicture: auth.currentUser?.photoURL,
+    );
   }
 
   @override
   bool isLoggedIn() {
-    // TODO: implement isLoggedIn
-    throw UnimplementedError();
+    return auth.currentUser != null;
   }
 
   @override
   Future logOut() {
-    // TODO: implement logOut
-    throw UnimplementedError();
+    return auth.signOut();
   }
-
 }

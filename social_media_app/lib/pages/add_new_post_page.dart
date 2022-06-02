@@ -66,7 +66,7 @@ class AddNewPostPage extends StatelessWidget {
                         SizedBox(
                           height: MARGIN_MEDIUM_3,
                         ),
-                        Expanded(child: PostImageView()),
+                        PostImageView(),
                         SizedBox(
                           height: MARGIN_MEDIUM_3,
                         ),
@@ -161,7 +161,7 @@ class PostImageView extends StatelessWidget {
                               height: 300,
                               child: Image.file(
                                 bloc.chosenImageFile ?? File(""),
-                                fit: BoxFit.cover,
+                                fit: BoxFit.fill,
                               ),
                             ),
                 ),
