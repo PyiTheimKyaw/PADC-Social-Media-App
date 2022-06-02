@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:social_media_app/data/model/social_model.dart';
 import 'package:social_media_app/data/vos/news_feed_vo.dart';
 import 'package:social_media_app/network/cloud_firestore_data_agent_impl.dart';
@@ -21,15 +23,27 @@ class SocialModelImpl extends SocialModel {
   }
 
   @override
-  Future<void> addNewPost(String description) {
-    var currentMiliseconds = DateTime.now().millisecondsSinceEpoch;
+  Future<void> addNewPost(String description, File? image) {
+    if (image != null) {
+      return mDataAgent
+          .uploadFileToFirebase(image)
+          .then((downloadUrl) => craftNewsFeedVO(description, downloadUrl))
+          .then((newPost) => mDataAgent.addNewPost(newPost));
+    } else {
+      return craftNewsFeedVO(description, "")
+          .then((newPost) => mDataAgent.addNewPost(newPost));
+    }
+  }
+
+  Future<NewsFeedVO> craftNewsFeedVO(String description, String imageUrl) {
+    var currentMilliseconds = DateTime.now().millisecondsSinceEpoch;
     var newPost = NewsFeedVO(
-        currentMiliseconds,
+        currentMilliseconds,
         description,
-        "",
-        "https://scontent-sin6-4.xx.fbcdn.net/v/t1.6435-9/91521846_730904297681781_7767512976893935616_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=OwDQxt9BVzsAX_3l0Cx&_nc_ht=scontent-sin6-4.xx&oh=00_AT8wDx_uQmzwhDyRStvBFq0TygYI-oFmqDOyMb9e_MPlCg&oe=62BC328A",
+        imageUrl,
+        "https://sm.askmen.com/t/askmen_in/article/f/facebook-p/facebook-profile-picture-affects-chances-of-gettin_fr3n.1200.jpg",
         "Pyi Theim Kyaw");
-    return mDataAgent.addNewPost(newPost);
+    return Future.value(newPost);
   }
 
   @override
@@ -46,5 +60,4 @@ class SocialModelImpl extends SocialModel {
   Future<void> editPost(NewsFeedVO newsFeed) {
     return mDataAgent.addNewPost(newsFeed);
   }
-
 }

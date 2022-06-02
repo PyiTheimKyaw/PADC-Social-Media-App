@@ -6,6 +6,7 @@ import 'package:social_media_app/blocs/add_new_post_bloc.dart';
 import 'package:social_media_app/resources/dimens.dart';
 import 'package:social_media_app/viewitems/news_feed_item_view.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:loading_indicator/loading_indicator.dart';
 
 class AddNewPostPage extends StatelessWidget {
   AddNewPostPage({Key? key, this.newsFeedId}) : super(key: key);
@@ -15,59 +16,99 @@ class AddNewPostPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
       create: (BuildContext context) => AddNewPostBloc(newsFeedId: newsFeedId),
-      child: Scaffold(
-        appBar: AppBar(
-          elevation: 0,
-          centerTitle: false,
-          backgroundColor: Colors.white,
-          leading: GestureDetector(
-              onTap: () {
-                Navigator.pop(context);
-              },
-              child: const Icon(
-                Icons.chevron_left,
-                color: Colors.black,
-                size: MARGIN_XLARGE,
-              )),
-          title: const Text("Add New Post",
-              style: TextStyle(
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold,
-                  fontSize: TEXT_HEADING_1X)),
-        ),
-        body: SingleChildScrollView(
-          child: Container(
-            color: Colors.white,
-            height: MediaQuery.of(context).size.height,
-            // margin: const EdgeInsets.only(top: MARGIN_XLARGE),
-            padding: const EdgeInsets.symmetric(
-                horizontal: MARGIN_LARGE, vertical: MARGIN_XLARGE),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: const [
-                ProfileImageAndNameView(),
-                SizedBox(
-                  height: MARGIN_MEDIUM_3,
+      child: Selector<AddNewPostBloc, bool>(
+        selector: (context, bloc) => bloc.isLoading,
+        shouldRebuild: (previous, next) => previous != next,
+        builder: (BuildContext context, isLoading, Widget? child) {
+          return Stack(
+            children: [
+              Scaffold(
+                
+                appBar: AppBar(
+                  elevation: 0,
+                  centerTitle: false,
+                  backgroundColor: Colors.white,
+                  leading: GestureDetector(
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                      child: const Icon(
+                        Icons.chevron_left,
+                        color: Colors.black,
+                        size: MARGIN_XLARGE,
+                      )),
+                  title: const Text("Add New Post",
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                          fontSize: TEXT_HEADING_1X)),
                 ),
-                Expanded(child: AddNewPostTextFieldView()),
-                // MaterialButton(onPressed: () {},color: Colors.black,child: Text("Post",style: TextStyle(color: Colors.white),)),
-                SizedBox(
-                  height: MARGIN_MEDIUM_3,
+                body: SingleChildScrollView(
+                  child: Container(
+                    color: Colors.white,
+                    height: MediaQuery.of(context).size.height,
+                    // margin: const EdgeInsets.only(top: MARGIN_XLARGE),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: MARGIN_LARGE, vertical: MARGIN_XLARGE),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: const [
+                        ProfileImageAndNameView(),
+                        SizedBox(
+                          height: MARGIN_MEDIUM_3,
+                        ),
+                        Expanded(child: AddNewPostTextFieldView()),
+                        // MaterialButton(onPressed: () {},color: Colors.black,child: Text("Post",style: TextStyle(color: Colors.white),)),
+                        SizedBox(
+                          height: MARGIN_MEDIUM_3,
+                        ),
+                        PostDescriptionErrorView(),
+                        SizedBox(
+                          height: MARGIN_MEDIUM_3,
+                        ),
+                        Expanded(child: PostImageView()),
+                        SizedBox(
+                          height: MARGIN_MEDIUM_3,
+                        ),
+                        PostButtonView(),
+                      ],
+                    ),
+                  ),
                 ),
-                PostDescriptionErrorView(),
-                SizedBox(
-                  height: MARGIN_MEDIUM_3,
-                ),
-                Expanded(child: PostImageView()),
-                SizedBox(
-                  height: MARGIN_MEDIUM_3,
-                ),
-                PostButtonView(),
-              ],
-            ),
-          ),
-        ),
+              ),
+              Visibility(
+                  visible: isLoading,
+                  child: Container(
+                    color: Colors.black12,
+                    child: const Center(
+                      child: LoadingView(),
+                    ),
+                  ))
+            ],
+          );
+        },
+      ),
+    );
+  }
+}
+
+class LoadingView extends StatelessWidget {
+  const LoadingView({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return const SizedBox(
+      width: MARGIN_XXLARGE,
+      height: MARGIN_XXLARGE,
+      child: LoadingIndicator(
+        indicatorType: Indicator.audioEqualizer,
+        colors: [Colors.white],
+        strokeWidth: 2,
+        backgroundColor: Colors.transparent,
+        pathBackgroundColor: Colors.black,
       ),
     );
   }
@@ -214,6 +255,7 @@ class AddNewPostTextFieldView extends StatelessWidget {
         return SizedBox(
           height: 300,
           child: TextField(
+            autofocus: false,
             maxLines: 24,
             controller: TextEditingController(text: bloc.newPostDescription),
             onChanged: (text) {

@@ -9,6 +9,7 @@ class AddNewPostBloc extends ChangeNotifier {
   ///State
   bool isAddNewPostError = false;
   bool isDisposed = false;
+  bool isLoading=false;
 
   ///Imge
   File? chosenImageFile;
@@ -51,12 +52,19 @@ class AddNewPostBloc extends ChangeNotifier {
       _notifySafely();
       return Future.error("Error");
     } else {
+      isLoading=true;
       isAddNewPostError = false;
       _notifySafely();
       if (isInEditMode) {
-        return _editNewsFeedPost();
+        return _editNewsFeedPost().then((value) {
+          isLoading=false;
+          _notifySafely();
+        });
       } else {
-        return _createNewNewsFeedPost();
+        return _createNewNewsFeedPost().then((value) {
+          isLoading=false;
+          _notifySafely();
+        });
       }
     }
   }
@@ -71,7 +79,7 @@ class AddNewPostBloc extends ChangeNotifier {
   }
 
   Future<void> _createNewNewsFeedPost() =>
-      _model.addNewPost(newPostDescription);
+      _model.addNewPost(newPostDescription,chosenImageFile);
 
   void _prePopulateDataForEditMode(int newsFeedId) {
     _model.getNewsFeedById(newsFeedId).listen((event) {
@@ -88,7 +96,7 @@ class AddNewPostBloc extends ChangeNotifier {
   void _prePopulateDataForAddPostMode() {
     userName = "Pyi Theim Kyaw";
     profilePicture =
-        "https://scontent-sin6-4.xx.fbcdn.net/v/t1.6435-9/91521846_730904297681781_7767512976893935616_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=OwDQxt9BVzsAX_3l0Cx&_nc_ht=scontent-sin6-4.xx&oh=00_AT8wDx_uQmzwhDyRStvBFq0TygYI-oFmqDOyMb9e_MPlCg&oe=62BC328A";
+        "https://sm.askmen.com/t/askmen_in/article/f/facebook-p/facebook-profile-picture-affects-chances-of-gettin_fr3n.1200.jpg";
     _notifySafely();
   }
 
