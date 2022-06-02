@@ -115,4 +115,9 @@ class RealTimeDatabaseDataAgentImpl extends SocialDataAgent {
   bool isLoggedIn() {
     return auth.currentUser != null;
   }
+
+  @override
+  Future logOut() {
+    return auth.signOut();
+  }
 }

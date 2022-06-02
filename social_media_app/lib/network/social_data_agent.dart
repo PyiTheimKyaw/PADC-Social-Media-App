@@ -17,4 +17,5 @@ abstract class SocialDataAgent{
   Future login(String email,String password);
   bool isLoggedIn();
   UserVO getLoggedInUser();
+  Future logOut();
 }

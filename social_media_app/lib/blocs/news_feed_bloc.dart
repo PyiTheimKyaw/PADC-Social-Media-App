@@ -1,12 +1,18 @@
 import 'package:flutter/widgets.dart';
+import 'package:social_media_app/data/model/authentication_model.dart';
+import 'package:social_media_app/data/model/authentication_model_impl.dart';
 import 'package:social_media_app/data/model/social_model.dart';
 import 'package:social_media_app/data/model/social_model_impl.dart';
 import 'package:social_media_app/data/vos/news_feed_vo.dart';
 
 class NewsFeedBloc extends ChangeNotifier {
   List<NewsFeedVO>? newsFeed;
-  final SocialModel _mSocialModel = SocialModelImpl();
+
   bool isDispose = false;
+
+  ///Models
+  final SocialModel _mSocialModel = SocialModelImpl();
+  final AuthenticationModel mAuthenticationModel = AuthenticationModelImpl();
 
   NewsFeedBloc() {
     _mSocialModel.getNewsFeed().listen((newsFeedList) {
@@ -20,7 +26,9 @@ class NewsFeedBloc extends ChangeNotifier {
   void onTapDelete(int postId) async{
    await _mSocialModel.deletePost(postId);
   }
-
+  Future onTapLogOut(){
+    return mAuthenticationModel.logOut();
+  }
   @override
   void dispose() {
     super.dispose();

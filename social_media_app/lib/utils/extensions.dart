@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 extension NavigationUtility on Widget {
-  void navigateToScreen(BuildContext context, Widget nextScreen) {
+  void navigateToNextScreen(BuildContext context, Widget nextScreen) {
     Navigator.push(
         context, MaterialPageRoute(builder: (context) => nextScreen));
   }

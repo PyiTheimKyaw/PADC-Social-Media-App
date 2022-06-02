@@ -204,7 +204,7 @@ class NameLocationAndTimeAgoView extends StatelessWidget {
             ),
             const Text(
               "- 2 hours ago",
-              style: const TextStyle(
+              style:  TextStyle(
                 fontSize: TEXT_SMALL,
                 color: Colors.grey,
                 fontWeight: FontWeight.bold,

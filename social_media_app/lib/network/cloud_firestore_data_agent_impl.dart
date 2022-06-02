@@ -87,4 +87,10 @@ class CloudFirestoreDataAgentImpl extends SocialDataAgent {
     throw UnimplementedError();
   }
 
+  @override
+  Future logOut() {
+    // TODO: implement logOut
+    throw UnimplementedError();
+  }
+
 }

@@ -4,37 +4,23 @@ import 'package:social_media_app/blocs/news_feed_bloc.dart';
 import 'package:social_media_app/data/model/social_model.dart';
 import 'package:social_media_app/data/model/social_model_impl.dart';
 import 'package:social_media_app/pages/add_new_post_page.dart';
+import 'package:social_media_app/pages/login_page.dart';
 import 'package:social_media_app/resources/dimens.dart';
+import 'package:social_media_app/utils/extensions.dart';
 import 'package:social_media_app/viewitems/news_feed_item_view.dart';
 
-class NewsFeedPage extends StatefulWidget {
+class NewsFeedPage extends StatelessWidget {
   const NewsFeedPage({Key? key}) : super(key: key);
 
   @override
-  State<NewsFeedPage> createState() => _NewsFeedPageState();
-}
-
-class _NewsFeedPageState extends State<NewsFeedPage> {
-  SocialModel mSocialModel = SocialModelImpl();
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    mSocialModel.getNewsFeed().listen((event) {
-      print("List of data => ${event.toString()}");
-    });
-
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
+    SocialModel mSocialModel = SocialModelImpl();
     return ChangeNotifierProvider(
       create: (BuildContext context) => NewsFeedBloc(),
       child: Scaffold(
         floatingActionButton: FloatingActionButton(
           onPressed: () {
-            _navigateToAddPostPage(context);
+            navigateToNextScreen(context, AddNewPostPage());
           },
           backgroundColor: Colors.black,
           child: const Icon(
@@ -74,6 +60,25 @@ class _NewsFeedPageState extends State<NewsFeedPage> {
                   size: MARGIN_LARGE,
                 ),
               ),
+            ),
+            Consumer<NewsFeedBloc>(
+              builder: (BuildContext context, bloc, Widget? child) {
+                return GestureDetector(
+                  onTap: () {
+                    bloc.onTapLogOut().then((value) {
+                      navigateToNextScreen(context, const LoginPage());
+                    });
+                  },
+                  child: Container(
+                      margin: const EdgeInsets.only(
+                        right: MARGIN_LARGE,
+                      ),
+                      child: const Icon(
+                        Icons.login_outlined,
+                        color: Colors.red,
+                      )),
+                );
+              },
             )
           ],
         ),
@@ -94,7 +99,8 @@ class _NewsFeedPageState extends State<NewsFeedPage> {
                     },
                     onTapEdit: (newsFeedId) {
                       Future.delayed(const Duration(seconds: 1)).then((value) {
-                        _navigateToEditPostPage(context, newsFeedId);
+                        navigateToNextScreen(
+                            context, AddNewPostPage(newsFeedId: newsFeedId));
                       });
                     },
                   );
@@ -112,22 +118,4 @@ class _NewsFeedPageState extends State<NewsFeedPage> {
       ),
     );
   }
-}
-
-void _navigateToAddPostPage(BuildContext context) {
-  Navigator.push(
-    context,
-    MaterialPageRoute(
-      builder: (context) => AddNewPostPage(),
-    ),
-  );
-}
-
-void _navigateToEditPostPage(BuildContext context, int id) {
-  Navigator.push(
-    context,
-    MaterialPageRoute(
-      builder: (context) => AddNewPostPage(newsFeedId: id),
-    ),
-  );
 }

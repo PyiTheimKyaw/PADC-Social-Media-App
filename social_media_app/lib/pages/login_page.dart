@@ -80,7 +80,7 @@ class LoginPage extends StatelessWidget {
                               onPressed: () {
                                 bloc
                                     .onTapLogin()
-                                    .then((value) => navigateToScreen(
+                                    .then((value) => navigateToNextScreen(
                                         context, const NewsFeedPage()))
                                     .catchError((error) =>
                                         showSnackBarWithMessage(
@@ -158,7 +158,7 @@ class RegisterTriggerView extends StatelessWidget {
           style: TextStyle(fontSize: TEXT_SMALL),
         ),
         GestureDetector(
-          onTap: () => navigateToScreen(context, const RegisterPage()),
+          onTap: () => navigateToNextScreen(context, const RegisterPage()),
           child: const Text(
             LABEL_REGISTER,
             style: TextStyle(

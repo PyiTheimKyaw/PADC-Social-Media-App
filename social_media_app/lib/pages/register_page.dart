@@ -170,7 +170,7 @@ class LoginTriggerView extends StatelessWidget {
           style: TextStyle(fontSize: TEXT_SMALL),
         ),
         GestureDetector(
-          onTap: () => navigateToScreen(context, const LoginPage()),
+          onTap: () => navigateToNextScreen(context, const LoginPage()),
           child: const Text(
             LABEL_LOGIN,
             style: TextStyle(
