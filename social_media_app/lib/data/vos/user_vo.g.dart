@@ -11,6 +11,7 @@ UserVO _$UserVOFromJson(Map<String, dynamic> json) => UserVO(
       userName: json['user_name'] as String?,
       email: json['email'] as String?,
       password: json['password'] as String?,
+      profilePicture: json['profile_picture'] as String?,
     );
 
 Map<String, dynamic> _$UserVOToJson(UserVO instance) => <String, dynamic>{
@@ -18,4 +19,5 @@ Map<String, dynamic> _$UserVOToJson(UserVO instance) => <String, dynamic>{
       'user_name': instance.userName,
       'email': instance.email,
       'password': instance.password,
+      'profile_picture': instance.profilePicture,
     };

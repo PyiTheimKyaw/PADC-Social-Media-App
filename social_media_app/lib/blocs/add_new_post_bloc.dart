@@ -1,9 +1,12 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:social_media_app/data/model/authentication_model.dart';
+import 'package:social_media_app/data/model/authentication_model_impl.dart';
 import 'package:social_media_app/data/model/social_model.dart';
 import 'package:social_media_app/data/model/social_model_impl.dart';
 import 'package:social_media_app/data/vos/news_feed_vo.dart';
+import 'package:social_media_app/data/vos/user_vo.dart';
 
 class AddNewPostBloc extends ChangeNotifier {
   ///State
@@ -18,14 +21,18 @@ class AddNewPostBloc extends ChangeNotifier {
   NewsFeedVO? mNewsFeed;
   bool isInEditMode = false;
   String? userName;
-  String? profilePicture;
+  String profilePicture="";
   String newPostDescription = "";
-  String image="";
+  String image = "";
+  UserVO? _loggedInUser;
 
   ///Model
   final SocialModel _model = SocialModelImpl();
+  final AuthenticationModel _authenticationModel = AuthenticationModelImpl();
 
   AddNewPostBloc({int? newsFeedId}) {
+    _loggedInUser = _authenticationModel.getLoggedInUser();
+    print("Profile pic => ${_loggedInUser?.profilePicture}");
     if (newsFeedId != null) {
       isInEditMode = true;
       _prePopulateDataForEditMode(newsFeedId);
@@ -75,7 +82,7 @@ class AddNewPostBloc extends ChangeNotifier {
 
   Future<dynamic> _editNewsFeedPost() {
     mNewsFeed?.description = newPostDescription;
-
+    mNewsFeed?.postImage=image;
     if (mNewsFeed != null) {
       return _model.editPost(mNewsFeed!, chosenImageFile);
     } else {
@@ -100,9 +107,8 @@ class AddNewPostBloc extends ChangeNotifier {
   }
 
   void _prePopulateDataForAddPostMode() {
-    userName = "Pyi Theim Kyaw";
-    profilePicture =
-        "https://sm.askmen.com/t/askmen_in/article/f/facebook-p/facebook-profile-picture-affects-chances-of-gettin_fr3n.1200.jpg";
+    userName = _loggedInUser?.userName ?? "";
+    profilePicture = _loggedInUser?.profilePicture ?? "";
     _notifySafely();
   }
 

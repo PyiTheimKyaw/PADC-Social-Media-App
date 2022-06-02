@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import 'package:social_media_app/data/model/authentication_model.dart';
+import 'package:social_media_app/data/model/authentication_model_impl.dart';
 import 'package:social_media_app/data/model/social_model.dart';
 import 'package:social_media_app/data/vos/news_feed_vo.dart';
 import 'package:social_media_app/network/cloud_firestore_data_agent_impl.dart';
@@ -15,7 +17,10 @@ class SocialModelImpl extends SocialModel {
 
   SocialModelImpl._internaL();
 
-  SocialDataAgent mDataAgent = CloudFirestoreDataAgentImpl();
+  SocialDataAgent mDataAgent = RealTimeDatabaseDataAgentImpl();
+
+  ///Model
+  final AuthenticationModel _authenticationModel = AuthenticationModelImpl();
 
   @override
   Stream<List<NewsFeedVO>> getNewsFeed() {
@@ -41,8 +46,8 @@ class SocialModelImpl extends SocialModel {
         currentMilliseconds,
         description,
         imageUrl,
-        "https://sm.askmen.com/t/askmen_in/article/f/facebook-p/facebook-profile-picture-affects-chances-of-gettin_fr3n.1200.jpg",
-        "Pyi Theim Kyaw");
+        _authenticationModel.getLoggedInUser().profilePicture,
+        _authenticationModel.getLoggedInUser().userName);
     return Future.value(newPost);
   }
 

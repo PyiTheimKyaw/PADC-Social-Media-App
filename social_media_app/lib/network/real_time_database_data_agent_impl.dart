@@ -84,7 +84,7 @@ class RealTimeDatabaseDataAgentImpl extends SocialDataAgent {
         .createUserWithEmailAndPassword(
             email: user.email ?? "", password: user.password ?? "")
         .then(
-            (credential) => credential.user?..updateDisplayName(user.userName))
+            (credential) {return credential.user?..updateDisplayName(user.userName)..updatePhotoURL(user.profilePicture);})
         .then((newUser) {
       user.id = newUser?.uid ?? "";
       _addNewUser(user);
@@ -108,7 +108,9 @@ class RealTimeDatabaseDataAgentImpl extends SocialDataAgent {
     return UserVO(
         id: auth.currentUser?.uid,
         userName: auth.currentUser?.displayName,
-        email: auth.currentUser?.email);
+        email: auth.currentUser?.email,
+        profilePicture: auth.currentUser?.photoURL,
+    );
   }
 
   @override

@@ -151,9 +151,9 @@ class PostImageView extends StatelessWidget {
                               },
                               child: SizedBox(
                                 width: double.infinity,
-                                height: 200,
+                                height: 300,
                                 child: Image.network(
-                                  "https://pooldues.com/wp-content/uploads/2018/04/image-upload-placeholder.jpg",
+                                  "https://socialistmodernism.com/wp-content/uploads/2017/07/placeholder-image.png?w=640",
                                 ),
                               ),
                             )
