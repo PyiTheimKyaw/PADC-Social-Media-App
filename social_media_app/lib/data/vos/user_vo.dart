@@ -11,10 +11,8 @@ class UserVO{
   String? email;
   @JsonKey(name: 'password')
   String? password;
-  @JsonKey(name: "user_profile")
-  String? userProfile;
 
-  UserVO({this.id, this.userName, this.email, this.password,this.userProfile});
+  UserVO({this.id, this.userName, this.email, this.password});
 
   factory UserVO.fromJson(Map<String,dynamic> json) => _$UserVOFromJson(json);
   Map<String,dynamic> toJson() => _$UserVOToJson(this);

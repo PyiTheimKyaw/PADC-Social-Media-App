@@ -1,19 +1,15 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:social_media_app/data/model/authentication_model.dart';
-import 'package:social_media_app/data/model/authentication_model_impl.dart';
 import 'package:social_media_app/data/model/social_model.dart';
 import 'package:social_media_app/data/model/social_model_impl.dart';
 import 'package:social_media_app/data/vos/news_feed_vo.dart';
-import 'package:social_media_app/data/vos/user_vo.dart';
 
 class AddNewPostBloc extends ChangeNotifier {
   ///State
   bool isAddNewPostError = false;
   bool isDisposed = false;
   bool isLoading = false;
-  UserVO? _loggedInUser;
 
   ///Imge
   File? chosenImageFile;
@@ -24,14 +20,12 @@ class AddNewPostBloc extends ChangeNotifier {
   String? userName;
   String? profilePicture;
   String newPostDescription = "";
-  String image = "";
+  String image="";
 
   ///Model
   final SocialModel _model = SocialModelImpl();
-  final AuthenticationModel _mAuthenticationModel = AuthenticationModelImpl();
 
   AddNewPostBloc({int? newsFeedId}) {
-    _loggedInUser = _mAuthenticationModel.getLoggedInUser();
     if (newsFeedId != null) {
       isInEditMode = true;
       _prePopulateDataForEditMode(newsFeedId);
@@ -106,7 +100,7 @@ class AddNewPostBloc extends ChangeNotifier {
   }
 
   void _prePopulateDataForAddPostMode() {
-    userName = _loggedInUser?.userName ?? "";
+    userName = "Pyi Theim Kyaw";
     profilePicture =
         "https://sm.askmen.com/t/askmen_in/article/f/facebook-p/facebook-profile-picture-affects-chances-of-gettin_fr3n.1200.jpg";
     _notifySafely();
