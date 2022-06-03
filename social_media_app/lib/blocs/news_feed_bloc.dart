@@ -1,4 +1,5 @@
 import 'package:flutter/widgets.dart';
+import 'package:social_media_app/analytic/firebase_analytic_tracker.dart';
 import 'package:social_media_app/data/model/authentication_model.dart';
 import 'package:social_media_app/data/model/authentication_model_impl.dart';
 import 'package:social_media_app/data/model/social_model.dart';
@@ -21,8 +22,11 @@ class NewsFeedBloc extends ChangeNotifier {
         notifyListeners();
       }
     });
+    _sendAnalyticData();
   }
-
+  void _sendAnalyticData()async{
+    await FirebaseAnalyticTracker().logEvent(homeScreenReached, null);
+  }
   void onTapDelete(int postId) async{
    await _mSocialModel.deletePost(postId);
   }

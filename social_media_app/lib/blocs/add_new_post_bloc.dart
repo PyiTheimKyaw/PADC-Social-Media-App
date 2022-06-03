@@ -8,6 +8,8 @@ import 'package:social_media_app/data/model/social_model_impl.dart';
 import 'package:social_media_app/data/vos/news_feed_vo.dart';
 import 'package:social_media_app/data/vos/user_vo.dart';
 
+import '../analytic/firebase_analytic_tracker.dart';
+
 class AddNewPostBloc extends ChangeNotifier {
   ///State
   bool isAddNewPostError = false;
@@ -39,8 +41,11 @@ class AddNewPostBloc extends ChangeNotifier {
     } else {
       _prePopulateDataForAddPostMode();
     }
+    _sendAnalyticData(addNewPostScreenReached, null);
   }
-
+  void _sendAnalyticData(String name,Map<String,dynamic>? parameters)async{
+    await FirebaseAnalyticTracker().logEvent(name, parameters);
+  }
   void onImageChosen(File imageFile) {
     chosenImageFile = imageFile;
     _notifySafely();
@@ -70,11 +75,13 @@ class AddNewPostBloc extends ChangeNotifier {
         return _editNewsFeedPost().then((value) {
           isLoading = false;
           _notifySafely();
+          _sendAnalyticData(editPostAction,{postId: mNewsFeed?.id.toString() ?? ""});
         });
       } else {
         return _createNewNewsFeedPost().then((value) {
           isLoading = false;
           _notifySafely();
+          _sendAnalyticData(addNewPostAction, null);
         });
       }
     }

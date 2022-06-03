@@ -47,6 +47,7 @@ dependencies:
   loading_indicator: ^3.1.0
   firebase_messaging: ^11.4.1
   flutter_local_notifications: ^9.1.4
+  firebase_analytics: ^9.1.9
 
 dev_dependencies:
   flutter_test:
