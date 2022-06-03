@@ -69,29 +69,23 @@ class LoginPage extends StatelessWidget {
                       const SizedBox(
                         height: MARGIN_LARGE,
                       ),
-                      Container(
-                        width: double.infinity,
-                        decoration: BoxDecoration(
-                            color: Colors.black,
-                            borderRadius: BorderRadius.circular(MARGIN_LARGE)),
-                        child: Consumer<LoginBloc>(
-                          builder: (BuildContext context, bloc, Widget? child) {
-                            return TextButton(
-                              onPressed: () {
-                                bloc
-                                    .onTapLogin()
-                                    .then((value) => navigateToNextScreen(
-                                        context, const NewsFeedPage()))
-                                    .catchError((error) =>
-                                        showSnackBarWithMessage(
-                                            context, error.toString()));
-                              },
-                              child: const PrimaryButtonView(
-                                labelText: LABEL_LOGIN,
-                              ),
-                            );
-                          },
-                        ),
+                      Consumer<LoginBloc>(
+                        builder: (BuildContext context, bloc, Widget? child) {
+                          return TextButton(
+                            onPressed: () {
+                              bloc
+                                  .onTapLogin()
+                                  .then((value) => navigateToNextScreen(
+                                      context, const NewsFeedPage()))
+                                  .catchError((error) =>
+                                      showSnackBarWithMessage(
+                                          context, error.toString()));
+                            },
+                            child: const PrimaryButtonView(
+                              labelText: LABEL_LOGIN,
+                            ),
+                          );
+                        },
                       ),
                       const SizedBox(
                         height: MARGIN_LARGE,

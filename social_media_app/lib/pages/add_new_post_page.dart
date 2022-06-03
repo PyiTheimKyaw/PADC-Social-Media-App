@@ -4,9 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:social_media_app/blocs/add_new_post_bloc.dart';
 import 'package:social_media_app/resources/dimens.dart';
+import 'package:social_media_app/resources/strings.dart';
 import 'package:social_media_app/viewitems/news_feed_item_view.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:loading_indicator/loading_indicator.dart';
+import 'package:social_media_app/viewitems/primary_button_view.dart';
 
 class AddNewPostPage extends StatelessWidget {
   AddNewPostPage({Key? key, this.newsFeedId}) : super(key: key);
@@ -228,22 +230,9 @@ class PostButtonView extends StatelessWidget {
               Navigator.pop(context);
             });
           },
-          child: Container(
-            width: double.infinity,
-            height: MARGIN_XXLARGE,
-            decoration: BoxDecoration(
-              color: Colors.black,
-              borderRadius: BorderRadius.circular(MARGIN_LARGE),
-            ),
-            child: const Center(
-              child: Text(
-                "Post",
-                style: TextStyle(
-                    color: Colors.white,
-                    fontSize: TEXT_REGULAR_2X,
-                    fontWeight: FontWeight.bold),
-              ),
-            ),
+          child: PrimaryButtonView(
+            labelText: LABEL_POST,
+            color: bloc.themeColor,
           ),
         );
       },
@@ -263,7 +252,6 @@ class AddNewPostTextFieldView extends StatelessWidget {
         return SizedBox(
           height: 300,
           child: TextField(
-
             maxLines: 24,
             // controller: TextEditingController(text: bloc.newPostDescription),
             onChanged: (text) {

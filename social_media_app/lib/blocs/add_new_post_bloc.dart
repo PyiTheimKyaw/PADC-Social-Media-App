@@ -7,6 +7,7 @@ import 'package:social_media_app/data/model/social_model.dart';
 import 'package:social_media_app/data/model/social_model_impl.dart';
 import 'package:social_media_app/data/vos/news_feed_vo.dart';
 import 'package:social_media_app/data/vos/user_vo.dart';
+import 'package:social_media_app/remote_config/firebase_remote_config.dart';
 
 import '../analytic/firebase_analytic_tracker.dart';
 
@@ -15,6 +16,7 @@ class AddNewPostBloc extends ChangeNotifier {
   bool isAddNewPostError = false;
   bool isDisposed = false;
   bool isLoading = false;
+  Color themeColor = Colors.black;
 
   ///Imge
   File? chosenImageFile;
@@ -23,7 +25,7 @@ class AddNewPostBloc extends ChangeNotifier {
   NewsFeedVO? mNewsFeed;
   bool isInEditMode = false;
   String? userName;
-  String profilePicture="";
+  String profilePicture = "";
   String newPostDescription = "";
   String image = "";
   UserVO? _loggedInUser;
@@ -31,6 +33,9 @@ class AddNewPostBloc extends ChangeNotifier {
   ///Model
   final SocialModel _model = SocialModelImpl();
   final AuthenticationModel _authenticationModel = AuthenticationModelImpl();
+
+  ///RemoteConfig
+  final FirebaseRemoteConfig _remoteConfig = FirebaseRemoteConfig();
 
   AddNewPostBloc({int? newsFeedId}) {
     _loggedInUser = _authenticationModel.getLoggedInUser();
@@ -44,10 +49,18 @@ class AddNewPostBloc extends ChangeNotifier {
 
     ///Firebase
     _sendAnalyticData(addNewPostScreenReached, null);
+    _getRemoteConfigAndChangeTheme();
   }
-  void _sendAnalyticData(String name,Map<String,dynamic>? parameters)async{
+
+  void _getRemoteConfigAndChangeTheme() {
+    themeColor = _remoteConfig.getThemeColorFromRemoteConfig();
+    _notifySafely();
+  }
+
+  void _sendAnalyticData(String name, Map<String, dynamic>? parameters) async {
     await FirebaseAnalyticTracker().logEvent(name, parameters);
   }
+
   void onImageChosen(File imageFile) {
     chosenImageFile = imageFile;
     _notifySafely();
@@ -77,7 +90,8 @@ class AddNewPostBloc extends ChangeNotifier {
         return _editNewsFeedPost().then((value) {
           isLoading = false;
           _notifySafely();
-          _sendAnalyticData(editPostAction,{postId: mNewsFeed?.id.toString() ?? ""});
+          _sendAnalyticData(
+              editPostAction, {postId: mNewsFeed?.id.toString() ?? ""});
         });
       } else {
         return _createNewNewsFeedPost().then((value) {
@@ -91,7 +105,7 @@ class AddNewPostBloc extends ChangeNotifier {
 
   Future<dynamic> _editNewsFeedPost() {
     mNewsFeed?.description = newPostDescription;
-    mNewsFeed?.postImage=image;
+    mNewsFeed?.postImage = image;
     if (mNewsFeed != null) {
       return _model.editPost(mNewsFeed!, chosenImageFile);
     } else {

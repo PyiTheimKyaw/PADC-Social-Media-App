@@ -8,3 +8,4 @@ const String LABEL_OR="OR";
 const String LABEL_DONT_HAVE_ACCOUNT="Don't have an account? ";
 const String LABEL_REGISTER="Register";
 const String LABEL_USERNAME="User Name";
+const String LABEL_POST="Post";
