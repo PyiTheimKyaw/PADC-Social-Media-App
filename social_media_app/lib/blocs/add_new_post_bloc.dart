@@ -41,6 +41,8 @@ class AddNewPostBloc extends ChangeNotifier {
     } else {
       _prePopulateDataForAddPostMode();
     }
+
+    ///Firebase
     _sendAnalyticData(addNewPostScreenReached, null);
   }
   void _sendAnalyticData(String name,Map<String,dynamic>? parameters)async{

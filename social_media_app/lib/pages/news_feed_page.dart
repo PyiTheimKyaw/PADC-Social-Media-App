@@ -1,3 +1,4 @@
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:social_media_app/blocs/news_feed_bloc.dart';
@@ -14,13 +15,13 @@ class NewsFeedPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    SocialModel mSocialModel = SocialModelImpl();
     return ChangeNotifierProvider(
       create: (BuildContext context) => NewsFeedBloc(),
       child: Scaffold(
         floatingActionButton: FloatingActionButton(
           onPressed: () {
             navigateToNextScreen(context, AddNewPostPage());
+            // FirebaseCrashlytics.instance.crash();
           },
           backgroundColor: Colors.black,
           child: const Icon(
@@ -67,6 +68,7 @@ class NewsFeedPage extends StatelessWidget {
                   onTap: () {
                     bloc.onTapLogOut().then((value) {
                       navigateToNextScreen(context, const LoginPage());
+
                     });
                   },
                   child: Container(
