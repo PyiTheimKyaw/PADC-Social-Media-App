@@ -83,7 +83,7 @@ class RegisterPage extends StatelessWidget {
                         const SizedBox(
                           height: MARGIN_LARGE,
                         ),
-                        UploadProfilePictureView(),
+                        const UploadProfilePictureView(),
                         const SizedBox(
                           height: MARGIN_LARGE,
                         ),

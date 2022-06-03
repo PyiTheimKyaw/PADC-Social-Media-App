@@ -6,6 +6,7 @@ import 'package:social_media_app/data/model/social_model.dart';
 import 'package:social_media_app/data/model/social_model_impl.dart';
 import 'package:social_media_app/pages/add_new_post_page.dart';
 import 'package:social_media_app/pages/login_page.dart';
+import 'package:social_media_app/pages/text_detection_page.dart';
 import 'package:social_media_app/resources/dimens.dart';
 import 'package:social_media_app/utils/extensions.dart';
 import 'package:social_media_app/viewitems/news_feed_item_view.dart';
@@ -47,6 +48,15 @@ class NewsFeedPage extends StatelessWidget {
             ),
           ),
           actions: [
+            IconButton(
+              onPressed: () {
+                navigateToNextScreen(context, const TextDetectionPage());
+              },
+              icon: const Icon(
+                Icons.face,
+                color: Colors.grey,
+              ),
+            ),
             GestureDetector(
               onTap: () {
                 /// TODO : - Handle Search Here
@@ -68,7 +78,6 @@ class NewsFeedPage extends StatelessWidget {
                   onTap: () {
                     bloc.onTapLogOut().then((value) {
                       navigateToNextScreen(context, const LoginPage());
-
                     });
                   },
                   child: Container(
