@@ -14,8 +14,8 @@ class MLKitTextRecognition {
 
   void detectTexts(File imageFile) async {
     InputImage inputImage = InputImage.fromFile(imageFile);
-    final textDetector = GoogleMlKit.vision.textRecognizer();
-    final RecognizedText recognizedText = await textDetector.processImage(
+    final textDetector = GoogleMlKit.vision.textDetector();
+    final RecognisedText recognizedText = await textDetector.processImage(
         inputImage);
     recognizedText.blocks.forEach((element) {
       print("Recognized text ===> ${element.text}");
@@ -25,7 +25,6 @@ class MLKitTextRecognition {
     InputImage inputImage = InputImage.fromFile(imageFile);
     final faceDetector=GoogleMlKit.vision.faceDetector();
     final List<Face> recognizedFace=await faceDetector.processImage(inputImage);
-    FaceDetector(options: FaceDetectorOptions());
     print("Recognized Face =====> ${recognizedFace.length}");
   }
 }
