@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:social_media_app/data/model/authentication_model.dart';
 import 'package:social_media_app/data/model/authentication_model_impl.dart';
+import 'package:social_media_app/fcm/fcm_service.dart';
+import 'package:social_media_app/fcm/fcm_service.dart';
 import 'package:social_media_app/pages/login_page.dart';
 import 'package:social_media_app/pages/news_feed_page.dart';
 import 'package:social_media_app/pages/register_page.dart';
@@ -10,6 +12,7 @@ import 'package:social_media_app/pages/register_page.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  FCMService().listenForMessage();
   runApp(const MyApp());
 }
 

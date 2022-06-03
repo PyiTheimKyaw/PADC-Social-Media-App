@@ -263,9 +263,9 @@ class AddNewPostTextFieldView extends StatelessWidget {
         return SizedBox(
           height: 300,
           child: TextField(
-            autofocus: false,
+
             maxLines: 24,
-            controller: TextEditingController(text: bloc.newPostDescription),
+            // controller: TextEditingController(text: bloc.newPostDescription),
             onChanged: (text) {
               bloc.onNewPostTextChanged(text);
             },
