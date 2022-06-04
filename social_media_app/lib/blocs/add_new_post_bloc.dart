@@ -35,7 +35,7 @@ class AddNewPostBloc extends ChangeNotifier {
   final AuthenticationModel _authenticationModel = AuthenticationModelImpl();
 
   ///RemoteConfig
-  final FirebaseRemoteConfig _remoteConfig = FirebaseRemoteConfig();
+  final FirebaseRemoteConfig remoteConfig = FirebaseRemoteConfig();
 
   AddNewPostBloc({int? newsFeedId}) {
     _loggedInUser = _authenticationModel.getLoggedInUser();
@@ -53,7 +53,7 @@ class AddNewPostBloc extends ChangeNotifier {
   }
 
   void _getRemoteConfigAndChangeTheme() {
-    themeColor = _remoteConfig.getThemeColorFromRemoteConfig();
+    themeColor = remoteConfig.getThemeColorFromRemoteConfig();
     _notifySafely();
   }
 
