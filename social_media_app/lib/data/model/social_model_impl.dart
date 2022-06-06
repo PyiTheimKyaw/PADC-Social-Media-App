@@ -17,7 +17,7 @@ class SocialModelImpl extends SocialModel {
 
   SocialModelImpl._internaL();
 
-  SocialDataAgent mDataAgent = CloudFirestoreDataAgentImpl();
+  SocialDataAgent mDataAgent = RealTimeDatabaseDataAgentImpl();
 
   ///Model
   final AuthenticationModel _authenticationModel = AuthenticationModelImpl();

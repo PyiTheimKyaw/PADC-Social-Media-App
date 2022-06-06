@@ -60,6 +60,19 @@ class TextDetectionPage extends StatelessWidget {
                           child: PrimaryButtonView(labelText: "Choose Image"));
                     },
                   ),
+                  SizedBox(height: MARGIN_LARGE,),
+                  Consumer<TextDetectionBloc>(
+                    builder: (BuildContext context, bloc, Widget? child) {
+                      return Visibility(
+                        visible: bloc.recognizedText.isNotEmpty,
+                        child: Container(
+                          height: 50,
+                          child: Text(bloc.recognizedText.toString()),
+                        ),
+                      );
+                    },
+
+                  )
                 ],
               ),
             ),

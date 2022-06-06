@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:social_media_app/data/vos/news_feed_vo.dart';
 import 'package:social_media_app/data/vos/user_vo.dart';
@@ -18,6 +19,9 @@ class CloudFirestoreDataAgentImpl extends SocialDataAgent {
 
   ///Auth
   FirebaseAuth auth = FirebaseAuth.instance;
+
+  ///Database
+  var databaseRef = FirebaseDatabase.instance.reference();
 
   @override
   Future<void> addNewPost(NewsFeedVO newsFeed) {
@@ -71,6 +75,20 @@ class CloudFirestoreDataAgentImpl extends SocialDataAgent {
 
   @override
   Future registerNewUser(UserVO user) {
+    return auth
+        .createUserWithEmailAndPassword(
+            email: user.email ?? "", password: user.password ?? "")
+        .then((credential) {
+      return credential.user
+        ?..updateDisplayName(user.userName)
+        ..updatePhotoURL(user.profilePicture);
+    }).then((newUser) {
+      user.id = newUser?.uid ?? "";
+      _addNewUser(user);
+    });
+  }
+
+  Future<void> _addNewUser(UserVO user) {
     return _fireStore
         .collection(userCollectionsPath)
         .doc(user.id.toString())

@@ -17,8 +17,6 @@ class FirebaseAnalyticTracker{
   ///Firebase analytic instance
   final FirebaseAnalytics analytic=FirebaseAnalytics.instance;
 
-
-
   Future logEvent(String name,Map<String,dynamic>? parameters){
     return analytic.logEvent(name: name,parameters: parameters);
   }

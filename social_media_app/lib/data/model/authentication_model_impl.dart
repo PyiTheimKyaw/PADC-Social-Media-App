@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:social_media_app/data/model/authentication_model.dart';
 import 'package:social_media_app/data/vos/user_vo.dart';
+import 'package:social_media_app/network/cloud_firestore_data_agent_impl.dart';
 import 'package:social_media_app/network/real_time_database_data_agent_impl.dart';
 import 'package:social_media_app/network/social_data_agent.dart';
 

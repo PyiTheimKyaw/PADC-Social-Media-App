@@ -12,14 +12,15 @@ class MLKitTextRecognition {
 
   MLKitTextRecognition._internal();
 
-  void detectTexts(File imageFile) async {
+  Future<List<TextBlock>> detectTexts(File imageFile) async {
     InputImage inputImage = InputImage.fromFile(imageFile);
     final textDetector = GoogleMlKit.vision.textDetector();
     final RecognisedText recognizedText = await textDetector.processImage(
         inputImage);
     recognizedText.blocks.forEach((element) {
-      print("Recognized text ===> ${element.text}");
+       print("Recognized text ===> ${element.text}");
     });
+    return recognizedText.blocks;
   }
   void detectFaces(File imageFile)async{
     InputImage inputImage = InputImage.fromFile(imageFile);
